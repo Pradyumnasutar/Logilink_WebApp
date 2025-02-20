@@ -1,0 +1,11 @@
+EPOD Resources (Git repos):
+
+Epod web application : 
+https://github.com/LightHouseDevelopment/LogisticManagement.git
+
+Epod API application : 
+https://github.com/LightHouseDevelopment/LogisticManagement_webAPI.git
+
+Epod API supportive utility (Epod BackBuddy) : 
+https://github.com/Code-By-Gaurav/DO_GoodsReturnUtility.git
+(private repo on gaurav's git)

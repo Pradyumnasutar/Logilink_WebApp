@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  les_logilink_webapp:
+    #container_name: les_logilink_webapp_container
+    container_name: myapp_container
+    #image: les_logilink_webapp:latest
+    image: newimage:latest
+    build:
+      context: D:/Git/LeS_LogiLink_WebApp
+      dockerfile: Dockerfile
+    ports:
+      - "32770:80"
+      - "32771:443"
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+      - ASPNET_VERSION=7.0.20
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - DOTNET_VERSION=7.0.20
+      - NUGET_FALLBACK_PACKAGES=/.nuget/fallbackpackages
+      - NUGET_PACKAGES=/.nuget/fallbackpackages
+    
