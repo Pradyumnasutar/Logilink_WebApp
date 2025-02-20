@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Views/Shared/_BaseMaster.cshtml";
+}
+
+@section scripts{
+    <link href="~/assets/media/slick/slick.css" rel="stylesheet" />
+    <link href="~/assets/media/slick/slick-theme.css" rel="stylesheet" />
+    <script src="~/assets/media/slick/slick.min.js"></script>
+    
+    <script type="module" src="~/assets/js/custom/linq.js"></script>
+    @RenderSection("scripts", required: false)
+}
+
+@section ActionList{
+    @RenderSection("ActionList", false)
+}
+
+@RenderBody()
+
+@RenderSection("Modals",false)
+

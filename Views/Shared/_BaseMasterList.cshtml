@@ -1,0 +1,133 @@
+﻿@{
+    Layout = "~/Views/Shared/_BaseMaster.cshtml";
+}
+
+@if (IsSectionDefined("HeaderDetails"))
+{
+    @RenderSection("HeaderDetails", required: false)
+}
+else
+{
+    IgnoreSection("HeaderDetails");
+}
+
+@if (ViewBag.EnableFilter == true)
+{
+    <!--begin::collapsible filter-->
+
+    <div class="accordion Filter" id="kt_accordion_filter">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="kt_accordion_filter_header">
+                <button data-text="Advanced Filter " class="accordion-button text-muted fs-7 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#kt_accordion_filter_body" aria-expanded="false" aria-controls="kt_accordion_filter_body">
+                    <div id="tagscontainer" style="display:none">
+                        @RenderSection("filtertitle", required: false)
+                    </div>
+                </button>
+            </h2>
+            <div id="kt_accordion_filter_body" class="accordion-collapse collapse" aria-labelledby="kt_accordion_filter_header" data-bs-parent="#kt_accordion_filter">
+                <div class="accordion-body">
+                    @RenderSection("filterAccbody", required: false)
+                    <div class="separator border-gray-200"></div>
+                </div>
+
+                <div class="mb-2 me-2 col-md-12">
+                    <div class="d-flex justify-content-end col-md-12">
+                        <button id="btnClear_Filter" class="btn btn-sm btn-light me-2" type="button" data-kt-element="Clear">Clear</button>
+                        <button id="btnApply_Filter" class="btn btn-sm me-2 btn-primary" type="button" data-kt-element="Apply">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--end collapsible filter-->
+}
+<!--begin::Table Tools-->
+<div class="mb-3">
+    <div class="d-flex align-items-center justify-content-between flex-lg-grow-1" id="divTableTools">
+        <div class="d-flex align-items-center mt-2">
+            <label class="form-label text-uppercase fw-bolder text-dark fs-8">Total Records : <span id="lblTotalRecord">@ViewBag.TotalRecords</span></label>
+        </div>
+        <div class="d-flex align-items-center me-2">    
+            @if (IsSectionDefined("QuickFilter"))
+            {
+                @RenderSection("QuickFilter", required: false)
+            }
+
+            <!--begin::Search-->
+            <div class="d-flex align-items-center position-relative my-1 ms-3">
+                <span class="svg-icon svg-icon-1 position-absolute ms-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                        <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor"></rect>
+                        <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="currentColor"></path>
+                    </svg>
+                </span>
+                <input type="text" data-kt-filter="search" class="form-control form-control-sm w-220px ps-14 fs-7" placeholder="Quick Search ..." />
+            </div>
+            <!--end::Search-->
+        </div>
+    </div>
+    <div class="hide my-5" id="divTableHeader">
+        <label class="form-label fw-bolder text-uppercase fs-7 ps-2 w-100" id="mainTitle"></label>
+        <label class="fw-bold text-gray-700 fs-8 ps-2" id="subTitle"></label>
+    </div>
+</div>
+<!--end::Table Tools-->
+<!--begin::Table container-->
+<div class="table-responsive mt-1">
+    <!--begin::Table-->
+    <table id="tblData" class="table  table-row-bordered table-row-gray-100 align-middle gs-0 gy-3 device-table dataTable no-footer">
+        <!--begin::Table head-->
+        <thead>
+            <tr class="fw-bolder text-muted bg-light text-gray-700">
+                @RenderSection("tableheader", false)
+            </tr>
+        </thead>
+        <!--end::Table head-->
+        <!--begin::Table body-->
+        <tbody class="gy-1 Filter">
+            @RenderSection("tablebody", false)
+        </tbody>
+        <!--end::Table body-->
+    </table>
+    <!--end::Table-->
+</div>
+<!--end::Table container-->
+@RenderBody()
+@section ActionList{
+    <div class="d-flex align-items-center gap-2 gap-lg-3 " id="divReportMenu">
+        <!--begin::filter-->
+        @RenderSection("filterMenu", false)
+        <!--end::filter-->
+        @RenderSection("AdditionalActions", false)
+        <!--begin::Export button-->
+        <!--begin::Menu-->
+        @*    <div class="me-0">
+    <button class="btn btn-sm btn-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+    <i class="bi bi-printer fs-3 me-2"></i> Export Report
+    </button>
+    <!--begin::Menu 3-->
+    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3" data-kt-menu="true">
+
+    <!--begin::Menu item-->
+    <div class="menu-item px-3">
+    <a href="#" onclick="ExportExcel()" class="menu-link px-3">Excel</a>
+    </div>
+    <!--end::Menu item-->
+    <!--begin::Menu item-->
+    <div class="menu-item px-3">
+    <a href="#" onclick="ExportPDF()" class="menu-link flex-stack px-3">PDF</a>
+    </div>
+    <!--end::Menu item-->
+    </div>
+    <!--end::Menu 3-->
+    </div>*@
+        <!--end::Menu-->
+        <!--end::Export button-->
+    </div>
+
+}
+@section scripts{
+    @RenderSection("scripts", false)
+}
+@RenderSection("Modals", false)

@@ -1,0 +1,40 @@
+﻿body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.bg-img {
+    background-image: url("../assets/media/misc/containers-8676518_1920.jpg");
+    min-height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+    filter: blur(10px); /* Apply blur filter */
+}
+
+.card-custom {
+    border: none;
+    width: 18rem;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.card-img-top-custom {
+    color: beige;
+    width: 100%; 
+    height: auto;
+    border-radius: 0;
+    margin-top: -3rem;
+}
+
+.pad {
+    padding: 1rem;
+}

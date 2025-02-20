@@ -1,0 +1,603 @@
+﻿@model LeS_LogiLink_WebApp.Controllers.VesselAuthenticationModalViews
+@using LeS_LogiLink_WebApp.Models
+@inject IEpodUserDefaultData UserData
+@{
+    ViewData["SubTitle"] = "ePOD";
+    ViewData["Title"] = "ePOD Shipment Details";
+    Layout = "~/Views/Shared/_BaseMasterDetail.cshtml";
+}
+
+@section ActionList {
+   
+
+    @{
+        if (Model.shipmentInfo.shipment_statusid == 5)
+        {
+            <button id="btnsave" class="btn btn-sm btn-success ModuleAccess" data-module="3" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                <i class="fas fa-pen fs-3 me-2"></i>Save
+            </button>
+            <button id="btninitreceipt" class="btn btn-sm btn-success ModuleAccess" data-module="3" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                <i class="bi la-cart-plus fs-3 me-2"></i>Confirm Initial Receipt
+            </button>
+        }
+        if (Model.shipmentInfo.shipment_statusid == 8)
+        {
+            
+            <button id="btnverifygoods" class="btn btn-sm btn-success ModuleAccess" data-module="3" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                <i class="bi bi-file-check fs-3 me-2"></i>Verify Goods
+            </button>
+        }
+        if (Model.shipmentInfo.shipment_statusid == 12)
+        {
+            
+            <button id="btnfinalrecipt" class="btn btn-sm btn-success ModuleAccess" data-module="3" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                <i class="bi bi-check-circle fs-3 me-2"></i> Confirm Final Receipt
+            </button>
+
+        }
+        if (Model.shipmentInfo.shipment_statusid != 4 && Model.shipmentInfo.shipment_statusid != 2 && Model.shipmentInfo.shipment_statusid != 11)
+        {
+            <button class="btn btn-sm btn-primary ModuleAccess" data-module="3" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="btnPrintShipmentOrder">
+                <i class="bi bi-printer fs-3 me-2"></i> Print Shipment Order
+            </button>
+        }
+        if (Model.shipmentInfo.shipment_statusid != 4 && Model.shipmentInfo.shipment_statusid != 2 && Model.shipmentInfo.shipment_statusid != 11)
+        {
+            if(Model.shipmentInfo.FinalReceiptExported==1){
+                <div class="position-relative" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Print Goods Return Report">
+                    <button class="btn btn-sm btn-primary ModuleAccess" data-module="3" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="btnPrintgrnreport">
+                        <i class="bi bi-printer fs-3 me-2"></i>Print GRR
+                    </button>
+                </div>
+            }
+            else
+            {
+                 <div class="position-relative" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Print Goods Return Report">
+                    <button class="btn btn-sm btn-primary ModuleAccess" data-module="3" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="btnPrintgrnreport" disabled>
+                        <i class="bi bi-printer fs-3 me-2"></i>Print GRR
+                    </button>
+                </div>
+            }
+           
+        }
+
+        <button id="btnCancel" class="btn btn-sm btn-danger" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" onclick="NavigatePage('/EPOD/Epodlist')">
+            <i class="fas fa-arrow-circle-left fs-3 me-2"></i> Back
+        </button>
+    }
+
+}
+
+@section scripts {
+    <script type="module" src="~/assets/js/custom/epod/epodshimentdetailslogistic.js"></script>
+    <link href="~/css/epodshipmentdetails.css" rel="stylesheet" />
+
+
+    <script>
+        var Model = @Html.Raw(Json.Serialize(Model));
+    </script>
+}
+
+<div class="container">
+    <!-- Breadcrumbs -->
+    <div class="row">
+        <div class="">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb d-flex">
+                    <li id="firstbread" class="breadcrumb-items" aria-current="page">
+                        <div class="circle">1</div>
+                        <div class="step-title">Step 1</div>
+                        <div class="step-description">Initial Receipt</div>
+                    </li>
+                    <li id="secondbread" class="breadcrumb-items">
+                        <div class="circle">2</div>
+                        <div class="step-title">Step 1.1</div>
+                        <div class="step-description">Goods Verification</div>
+                    </li>
+                    <li id="thirdbread" class="breadcrumb-items">
+                        <div class="circle">3</div>
+                        <div class="step-title">Step 2</div>
+                        <div class="step-description">Final Receipt</div>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="fv-row g-4">
+        <div class="row form-group mb-0 py-3 px-5">
+            <div class="col-12">
+
+                <div class="mb-5 scroll-x">
+                    <div class="d-grid">
+                        <ul class="nav nav-tabs flex-nowrap text-nowrap" id="dynamicTabList" role="tablist">
+                            <!-- Tabs will be dynamically inserted here -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-content" id="dynamicTabContent">
+                    <!-- Tab contents will be dynamically inserted here -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="fv-row">
+        <div class="row form-group">
+            <div class="col-12">
+                <div class="document-section active" id="kt_tab_pane_1" role="tabpanel">
+                    <!-- Shipment Info content here -->
+                    <div class="row gy-5 g-xl-12">
+                        <div class="col-xl-12 border-gray-500">
+                            <div class="fv-row" style="margin-top:15px;">
+                                <div class="row form-group mb-7">
+                                    <div class="col-md-4 col-lg-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Shipment No. :
+                                        </label>
+                                        <input type="text" id="txtshipmentNo" value="@Model.shipmentInfo.order_no" placeholder="Shipment No" class="form-control form-control-sm fs-7 text-dark" disabled="disabled" />
+                                    </div>
+                                    <div class="col-md-4 col-lg-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Job No Code:
+                                        </label>
+                                        <input type="text" id="txtJobnocode" value="@Model.shipmentInfo.jobno" placeholder="Job No Code" class="form-control form-control-sm fs-7 text-dark" disabled="disabled" />
+                                    </div>
+                                    <div class="col-md-4 col-lg-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Status :
+                                        </label>
+                                        <input type="text" id="txtstatus" value="@Model.shipmentInfo.shipment_statusdesc" placeholder="Status" class="form-control form-control-sm fs-7 text-dark" disabled="disabled" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="separator separator-dotted border-1 border-dark my-5"></div>
+                            <!--begin::Row 1-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-md-3 col-lg-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Party Code :
+                                        </label>
+                                        <input type="text" id="txtCustomerCode" value="@Model.shipmentInfo.cust_code" class="form-control form-control-sm fs-7 text-dark" placeholder="Customer Code" disabled="disabled" />
+                                    </div>
+                                    <div class="col-md-3 col-lg-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Party Name :
+                                        </label>
+                                        <input type="text" id="txtCustomerName" value="@Model.shipmentInfo.cust_name" class="form-control form-control-sm fs-7 text-dark" placeholder="Customer Name" disabled="disabled" />
+                                    </div>
+                                    <div class="col-md-3 col-lg-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Vessel Name :
+                                        </label>
+                                        <input type="text" id="txtVesselName" value="@Model.shipmentInfo.vessel_name" class="form-control form-control-sm fs-7 text-dark" placeholder="Vessel Name" disabled="disabled" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--end::Row 1-->
+                            <!--begin::Row 2-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-md-3 col-lg-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Vessel ETA :
+                                        </label>
+                                        @{
+                                            string eta = "";
+                                            if (Model.shipmentInfo.vessel_eta != null && Model.shipmentInfo.vessel_eta != DateTime.MinValue)
+                                            {
+                                                eta = Convert.ToDateTime(Model.shipmentInfo.vessel_eta).ToString("dd'/'MM'/'yyyy HH:mm");
+                                            }
+                                        }
+                                        <input type="datetime" id="txtVesselETA" value="@eta" class="form-control form-control-sm fs-7 text-dark" placeholder="Vessel ETA Date" disabled="disabled" />
+                                    </div>
+                                    <div class="col-md-3 col-lg-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Vessel ATA :
+                                        </label>
+                                        @{
+                                            string ata = "";
+                                            if (Model.shipmentInfo.vessel_ata != null && Model.shipmentInfo.vessel_ata != DateTime.MinValue)
+                                            {
+                                                ata = Convert.ToDateTime(Model.shipmentInfo.vessel_ata).ToString("dd'/'MM'/'yyyy HH:mm");
+
+                                            }
+                                        }
+                                        <input type="datetime" id="txtVesselATA" value="@ata" class="form-control form-control-sm fs-7 text-dark" placeholder="Vessel ATA Date" disabled="disabled" />
+                                    </div>
+                                    <div class="col-md-3 col-lg-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Vessel Code :
+                                        </label>
+                                        <input type="text" id="txtVesselCode" value="@Model.shipmentInfo.vessel_code" class="form-control form-control-sm fs-7 text-dark" placeholder="Vessel Code" disabled="disabled" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Row 2-->
+                            <!-- Remarks Box -->
+                            <div class="mt-4">
+                                <label for="txtRemarks" class="form-label">Remarks:</label>
+                                @if (Model.shipmentInfo.shipment_statusid == 5)
+                                {
+                                    <textarea id="txtRemarks" value="@Model.shipmentInfo.Epod_Shipment_Notes" class="form-control" rows="3">@Model.shipmentInfo.Epod_Shipment_Notes</textarea>
+
+                                }
+                                else
+                                {
+                                    <textarea id="txtRemarks" value="@Model.shipmentInfo.Epod_Shipment_Notes" class="form-control" rows="3" disabled="disabled">@Model.shipmentInfo.Epod_Shipment_Notes</textarea>
+
+                                }
+                            </div>
+                        </div>
+                        <div class="separator separator-dotted border-1 border-dark my-5"></div>
+                        <div class="fv-row">
+                            <div class="row form-group mb-7">
+                                <div class="col-md-6">
+                                    <label class="form-label">Shipment Attachments:</label>
+                                    <div class="mb-3 mt-3">
+                                        @{
+                                            if (Model.shipmentInfo.shipment_statusid != 10)
+                                            {
+                                                <div class="mb-3">
+                                                    <label class="form-label">Upload File</label>
+                                                    <input type="file" id="fileInput" class="form-control" accept=".jpg,.jpeg,.png,.pdf,.txt" />
+                                                    <span id="uploadMessage"></span>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <button id="uploadButton" class="btn btn-sm btn-primary ModuleAccess" data-module="3" data-access_level="2,3">
+                                                        <i class="bi bi-cloud-upload-fill" aria-hidden="true"></i>
+                                                        Upload
+                                                    </button>
+
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="mb-3">
+                                                    <label class="form-label">Upload File</label>
+                                                    <input type="file" id="fileInput" disabled="disabled" class="form-control" accept=".jpg,.jpeg,.png,.pdf,.txt" />
+                                                    <span id="uploadMessage"></span>
+                                                </div>
+
+                                            }
+                                        }
+
+
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 mb-3 mt-3">
+
+                                    <table id="tblshipmentDocuments" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3 ">
+                                        <thead>
+                                            <tr class="fw-bolder text-muted bg-light">
+                                                <th></th>
+                                                <th>No.</th>
+                                                <th>Attachments</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="separator separator-dotted border-1 border-dark my-5"></div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <span class="fw-bold">Total Packing Unit:</span> <span id="total-records"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between flex-lg-grow-1" id="divTableTools">
+                            <div class="d-flex align-items-center mt-2">
+                                <label class="form-label text-uppercase fw-bolder text-dark fs-8">Total Records : <span id="lblTotalRecord">@ViewBag.TotalRecords</span></label>
+                            </div>
+                            <div class="d-flex align-items-center me-2">
+
+                                <!--begin::Search-->
+                                <div class="d-flex align-items-center position-relative my-1 ms-3">
+                                    <span class="svg-icon svg-icon-1 position-absolute ms-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor"></rect>
+                                            <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="currentColor"></path>
+                                        </svg>
+                                    </span>
+                                    <input type="text" data-kt-filter="search" class="form-control form-control-sm w-220px ps-14 fs-7" placeholder="Quick Search ..." />
+                                </div>
+                                <!--end::Search-->
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table id="tbldeliveryorders" class="table table-bordered align-middle gs-0 gy-3">
+                                <!--begin::Table head-->
+                                <thead class="bg-light">
+                                    <tr class="fw-bolder text-muted">
+                                        <th></th>
+                                        <th>Verified</th>
+                                        <th>Delivery Order No.</th>
+                                        <th>Packing Unit ID</th>
+                                        <th>Shipment No.</th>
+                                        <th>Customer Dept</th>
+                                        <th>Customer PO No.</th>
+                                        <th>Packing Units</th>
+                                        <th>Status</th>
+                                        <th>Sales Person Code</th>
+                                        <th>Attachment</th>
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Modals {
+
+    <div class="modal fade align-content-center" data-backdrop="static" data-keyboard="false" aria-hidden="true" tabindex="-1" id="modaldeliverylines">
+        <div class="modal-dialog " role="document" style="max-width: 1300px !important">
+            <div class="modal-content">
+                <div class="modal-header bg-light-primary ">
+                    <h5 class="modal-title" style="color:blue;margin:0px;">
+                        Delivery order lines
+                    </h5>
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 close" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="svg-icon svg-icon-2x">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
+                                <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
+                            </svg>
+                        </span>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <input id="itemkey" value="-1" class="hide" />
+                <div class="modal-body p-5 ">
+                    <div class="row col-md-12 mt-2">
+                        <div class="col-12">
+                            <div class="col-3 form-label">
+                                Delivery Orders:
+                            </div>
+                            <div class="mb-5 scroll-x">
+                                <div class="d-grid">
+                                    <ul class="nav nav-tabs flex-nowrap text-nowrap" id="dynamicTabListPopup" role="tablist">
+                                        <!-- Tabs will be dynamically inserted here -->
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-content" id="dynamicTabContentPopup">
+                                <!-- Tab contents will be dynamically inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mt-2 itemupdate justify-content-center">
+                        <div class="row col-md-6">
+                            <div class="mb-3 mt-3">
+                                <label class="form-label">Delivery Order Attachments:</label>
+                                @{
+                                    if (Model.shipmentInfo.shipment_statusid != 10)
+                                    {
+                                        <div class="mb-3">
+                                            <label class="form-label">Upload File</label>
+                                            <input type="file" id="dopopfileInput" class="form-control" accept=".jpg,.jpeg,.png,.pdf,.txt" />
+                                            <span id="dopopuploadMessage"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <button id="dopopuploadButton" class="btn btn-sm btn-primary ModuleAccess" data-module="3" data-access_level="2,3">
+                                                <i class="bi bi-cloud-upload-fill" aria-hidden="true"></i>
+                                                Upload
+                                            </button>
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="mb-3">
+                                            <label class="form-label">Upload File</label>
+                                            <input type="file" id="fileInput" disabled="disabled" class="form-control" accept=".jpg,.jpeg,.png,.pdf,.txt" />
+                                            <span id="dopopuploadMessage"></span>
+                                        </div>
+
+                                    }
+                                }
+
+
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 mb-3 mt-3">
+
+                            <table id="tbldopoporderattachments" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3 ">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light">
+                                        <th></th>
+                                        <th>No.</th>
+                                        <th>Attachments</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+                            </table>
+
+                        </div>
+
+                        <div class="row col-md-12">
+                            <div class="mt-4">
+                                <label for="txtgoodsnotes" class="form-label">Goods Return Notes:</label>
+                                @if (Model.shipmentInfo.shipment_statusid == 8)
+                                {
+                                    <textarea id="txtgoodsnotes" value="" class="form-control" rows="3"></textarea>
+
+                                }
+                                else
+                                {
+                                    <textarea id="txtgoodsnotes" value="" class="form-control" rows="3" disabled="disabled"></textarea>
+
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-3 mt-2">
+
+
+                            <table id="tbldeliveryorderlines" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light">
+                                        <th></th>
+
+                                        <th>Row No.</th>
+                                        <th>Item No.</th>
+                                        <th>Customer Description</th>
+                                        <th>Customer Dept.</th>
+                                        <th>Customer PO No.</th>
+                                        <th>Packing Unit ID</th>
+                                        <th>Delivered Qty</th>
+                                        <th>UOM</th>
+                                        <th>Received Qty</th>
+                                        <th>Remark</th>
+                                        <th>Reason Code</th>
+                                        <th>Good Return</th>
+
+
+                                    </tr>
+                                </thead>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Close</button>
+                    @{
+                        if (Model.shipmentInfo.shipment_statusid == 8)
+                        {
+                            <button type="button" class="btn btn-sm btn-success ModuleAccess" data-module="3" data-access_level="2,3" id="btnSaveLines">Save</button>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade align-content-center" data-backdrop="static" data-keyboard="false" aria-hidden="true" tabindex="-1" id="modalDOAttachment">
+        <div class="modal-dialog " role="document" style="max-width: 600px !important">
+            <div class="modal-content">
+                <div class="modal-header bg-light-primary justify-content-center">
+                    <h5 class="modal-title" style="color:blue;margin:0px;">
+                        Download/Upload Attachments
+                    </h5>
+
+                </div>
+                <input id="itemkey1" value="-1" class="hide" />
+                <div class="modal-body p-5 ">
+                    <!--begin::Input group-->
+
+                    <div class="row col-md-12 mt-2 itemupdate justify-content-center">
+
+                        <div class="col-md-12 mb-3 mt-2">
+                            <div class="mb-3 mt-3">
+
+                                @{
+                                    if (Model.shipmentInfo.shipment_statusid != 10)
+                                    {
+                                        <div class="mb-3">
+                                            <label class="form-label">Upload File</label>
+                                            <input type="file" id="dofileInput" class="form-control" accept=".jpg,.jpeg,.png,.pdf,.txt" />
+                                            <span id="douploadMessage"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <button id="douploadButton" class="btn btn-sm btn-primary ModuleAccess" data-module="3" data-access_level="2,3">
+                                                <i class="bi bi-cloud-upload-fill" aria-hidden="true"></i>
+                                                Upload
+                                            </button>
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="mb-3">
+                                            <label class="form-label">Upload File</label>
+                                            <input type="file" id="fileInput" disabled="disabled" class="form-control" accept=".jpg,.jpeg,.png,.pdf,.txt" />
+                                            <span id="uploadMessage"></span>
+                                        </div>
+
+                                    }
+                                }
+
+
+
+                            </div>
+                            <div class="separator separator-dotted border-1 border-dark my-5"></div>
+
+                            <table id="tbldoDocuments" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3 ">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light">
+                                        <th></th>
+                                        <th>No.</th>
+                                        <th>Attachments</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Close</button>
+                    @* <button type="button" class="btn btn-sm btn-success ModuleAccess" data-module="2" data-access_level="2,3" style="display:none;" id="btnAssignConform">Confirm</button> *@
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade align-content-center" data-backdrop="static" data-keyboard="false" aria-hidden="true" tabindex="-1" id="printModal">
+        <div class="modal-dialog " role="document" style="max-width: 600px !important">
+            <div class="modal-content">
+                <div class="modal-header bg-light-primary justify-content-center">
+                    <h5 class="modal-title" style="color:blue;margin:0px;">
+                        Print Outbound Shipment
+                    </h5>
+                </div>
+
+                <div class="modal-body p-5">
+                    <div class="form-check form-switch d-flex">
+                        <label class="form-check-label me-20" for="flexSwitchCheckDefault">Print with all appended Delivery Orders: </label>
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    </div>
+                </div>
+
+
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-sm btn-primary" id="confirmPrint">Print</button>
+                    <button type="button" class="btn btn-sm btn-success" id="previewbtn">Preview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = "Users";
+    Layout = "~/Views/Shared/_BaseMasterList.cshtml";
+}
+@section scripts {
+    <script src="~/assets/js/custom/UserAdministration/Userlist.js"></script>
+   
+
+}
+@section AdditionalActions {
+    <button id="btnAddnew" class="btn btn-sm btn-success ModuleAccess" data-module="7" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" onclick="NavigatePage('/UserAdministration/CreateNewUser')" >
+        <i class="bi la-cart-plus fs-3 me-2"></i> Create New User
+    </button>
+}
+
+@section tableheader {
+    <th style="display:none;"></th>
+    <th class="min-w-40px text-gray-700 px-3" style="width:10%">User</th>
+    <th class="min-w-40px text-gray-700" style="width:10%">Username</th>
+    <th class="min-w-40px text-gray-700" style="width:10%">Role</th>
+    <th class="min-w-40px text-gray-700" style="width:10%">Status</th>
+    <th class="min-w-40px text-gray-700" style="width:10%">Company</th>
+    <th class="min-w-40px text-gray-700" style="width:10%">Password Expiry Date</th>
+}
+@section tablebody {
+
+
+}
+

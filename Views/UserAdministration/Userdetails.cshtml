@@ -1,0 +1,220 @@
+﻿@model LeS_LogiLink_WebApp.Controllers.UserDetailsData
+@{
+    ViewData["Title"] = "User Details";
+    Layout = "~/Views/Shared/_BaseMasterDetail.cshtml";
+
+}
+
+@section scripts{
+    <script src="~/assets/js/custom/useradministration/userdetails.js"></script>
+    <script>
+        
+        var Model = @Html.Raw(Json.Serialize(@Model));
+        var userdetails = @Html.Raw(Json.Serialize(@Model.UserDetailModel.userdetails));
+        var linkedcompanies = @Html.Raw(Json.Serialize(@Model.UserDetailModel.linkedcompanies));
+        var roles = @Html.Raw(Json.Serialize(@Model.Roles));
+        var companies = @Html.Raw(Json.Serialize(@Model.Companies));
+            
+    </script>
+    <style>
+        .card .card-header{
+            min-height: 40px;
+        }
+    </style>
+    
+}
+
+@section ActionList{
+    <button class="btn btn-sm btn-success ModuleAccess" data-module="7" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="btnSaveUserDetail">
+        <i class="fa fa-pen fs-3 me-2" aria-hidden="true"></i>Save
+    </button>
+    <button class="btn btn-sm btn-danger" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" onclick="NavigatePage('/UserAdministration/UsersList')">
+        <i class="fas fa-arrow-circle-left fs-3 me-2"></i> Back
+    </button>
+}
+
+<div class="post d-flex flex-column-fluid" id="kt_post">
+    <div id="kt_content_container" class="container-xxl mx-0 px-5" style="max-width:100% !important">
+        <div class="row g-2 g-xl-5 h-100">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="card card-flush mb-5 mb-xl-5 rounded-1 h-100" id="divUserImage">
+                    <div class="card-body text-center">
+                        <div class="d-flex flex-center flex-column">
+                            <div class="image-input image-input-circle image-input-empty mb-5" data-kt-image-input="true" id="imgUser" style="background-image: url(/assets/media/svg/avatars/blank.svg)">
+                                <div class="image-input-wrapper w-100px h-100px" style="background-image: url(../assets/media/svg/avatars/blank.svg)"></div>
+                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow hide" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change Image">
+                                    <i class="bi bi-pencil-fill fs-8"></i>
+                                    <input type="file" name="avatar" accept=".png, .jpg, .jpeg" id="imgCatalogInput">
+                                    <input type="hidden" name="avatar_remove">
+                                </label>
+                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel Image">
+                                    <i class="bi bi-x fs-2"></i>
+                                </span>
+                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove Image">
+                                    <i class="bi bi-x fs-2"></i>
+                                </span>
+                            </div>
+                            <a class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-5">@Model.UserDetailModel.userdetails.ex_usercode</a>
+                            <div class="mb-10">
+                                <div class="badge badge-lg badge-light-primary d-inline">@Model.UserDetailModel.userdetails.usertypedescr</div>
+                            </div>
+                        </div>
+                        <div class="separator separator-dashed mt-5 mb-10"></div>
+                        <div class="d-flex flex-stack">
+                            <div class="d-flex flex-column text-left">
+                                <a href="#" class="fs-5 text-dark text-hover-primary fw-bolder">Active</a>
+                                <div class="fs-8 fw-bold text-muted">User's account status</div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                                    <input class="form-check-input" name="active" type="checkbox" value="1" id="chkUserActive" onchange="ShowSaveButton()">
+                                    <span class="form-check-label fw-bold text-muted" for="chkUserActive"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="separator separator-dashed my-5"></div>
+                        <div class="d-flex flex-stack">
+                            <div class="d-flex flex-column text-left">
+                                <a href="#" class="fs-5 text-dark text-hover-primary fw-bolder">Email Notification</a>
+                                <div class="fs-8 fw-bold text-muted">Receive mail notifications</div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                                    <input class="form-check-input" name="notifications" type="checkbox" id="chkNotiifications" onchange="ShowSaveButton()">
+                                    <span class="form-check-label fw-bold text-muted" for="chkNotiifications"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="card card-flush mb-5 mb-xl-5 rounded-1 h-100" id="divUserInfo">
+                    <div class="card-header bg-light-primary m-4">
+                        <h3 class="card-title flex-column">
+                            <span class="fw-bolder mb-2 text-dark fs-5" id="TabTitle">User Details</span>
+                        </h3>
+                    </div>
+                    <div class="card-body pt-0 mt-4
+">
+                        <form asp-action="CreateOrUpdateUser" method="post">
+                            <div class="row mb-4">
+                                <div class="col-xl-4">
+                                    <label class="form-label text-dark fw-bolder fs-8 required">User Name:</label>
+                                    <input type="text" id="txtusername" value=@Model.UserDetailModel.userdetails.ex_usercode placeholder="User Name" class="form-control form-control-sm fs-7 text-dark" disabled="disabled">
+                                    @* <input type="text" id="txtusername" name="UserDetails.ExUserCode" value=@Model.userdetails.ex_usercode placeholder="User Name" class="form-control form-control-sm fs-7 text-dark"> *@
+                                    @* <div class="text-muted fs-8">Must be unique in system</div> *@
+                                </div>
+                                <div class="col-xl-4">
+                                    <label class="required form-label fs-7 text-gray-700">Name</label>
+                                    <input type="text" id="txtfirstname" value=@Model.UserDetailModel.userdetails.ex_username name="UserDetails.ExUserName" placeholder="Name" class="form-control form-control-sm fs-7 text-dark">
+                                    @* <input type="text" id="txtfirstname" name="UserDetails.ExUserName" value=@Model.userdetails.ex_username placeholder="First Name" class="form-control form-control-sm fs-7 text-dark"> *@
+                                   
+                                </div>
+                                <div class="col-xl-4">
+                                    <label class="form-label fs-7 text-gray-700">Created Date:</label>
+                                    <input type="text" id="createddt" name="createdDate" value="@Convert.ToDateTime(Model.UserDetailModel.userdetails.created_date).ToString("dd'/'MM'/'yyyy")" placeholder="Created Date" class="form-control form-control-sm fs-7 text-dark" disabled="disabled">
+                                    
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-xl-4">
+                                    <label class="required form-label fs-7 text-gray-700">Email ID</label>
+                                    <input type="text" id="txtEmail" name="UserDetails.ExEmailId" value=@Model.UserDetailModel.userdetails.ex_emailid class="form-control form-control-sm mb-2" maxlength="50">
+                                    @* <input type="text" id="txtEmail" name="UserDetails.ExEmailId" value=@Model.userdetails.ex_emailid class="form-control form-control-sm mb-2" maxlength="50"> *@
+                                    
+                                </div>
+                                <div class="col-xl-4">
+                                    <label class="form-label text-dark fw-bolder fs-8 required">Company :</label>
+                                    <select name="UserDetails.CompanyId" id="txtcompany" data-placeholder="Select Company" data-control="select2" class="form-select fs-7">
+                                    </select>
+                                </div>
+                                <div class="col-xl-4">
+                                    <label class="form-label text-dark fw-bolder fs-8 required">Role :</label>
+                                    <select name="userdetails.usertype" id="txtrole" data-placeholder="Select Role" data-control="select2" class="form-select fs-7">
+                                    
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-4">
+                                <div class="col-xl-4">
+                                    <label class="required form-label fs-7 text-gray-700">Password</label>
+                                    <input type="password" id="txtpassword" name="Password" value="@Model.UserDetailModel.userdetails.ex_password" class="form-control form-control-sm mb-2" maxlength="50">
+                                </div>
+                                <div class="col-xl-4">
+                                    <label class="required form-label fs-7 text-gray-700">Confirm Password</label>
+                                    <input type="password" id="txtconfirmpassword" name="ConfirmPassword" class="form-control form-control-sm mb-2" maxlength="50">
+                                </div>
+                                <div class="col-xl-4">
+                                    <label class="form-label fs-7 text-gray-700">Password Expiry Date</label>
+                                    <input type="text" readonly="readonly" id="txtPwdExpiry" value="" class="form-control form-control-sm form-control-solid mb-2">
+                                </div>
+                            </div>
+
+                        </form>
+                        <div class="separator separator-dashed my-10"></div>
+                        <div class="d-flex align-items-center mt-2">
+                            <label class="form-label text-uppercase fw-bolder text-dark fs-8">Total Records : <span id="lblTotalUsers">@Model.UserDetailModel.linkedcompanies.Count</span></label>
+
+                            <a href="#" id="btnAddLinkedCompany" class="btn btn-sm btn-success ms-auto mb-2 ModuleAccess" data-module="7" data-access_level="2,3">
+                                <i class="flaticon2-add"></i>
+                            </a>
+                        </div>
+                        
+                        <table id="tblCompanies" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                            <!--begin::Table head-->
+                            <thead>
+                                <tr class="fw-bolder text-muted bg-light">
+                                    <th>Company</th>
+                                    <th>Role</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Modals{
+
+    <div class="modal fade align-content-center" data-backdrop="static" data-keyboard="false" aria-hidden="true" tabindex="-1" id="addCompanyModel">
+        <div class="modal-dialog " role="document" style="max-width: 600px !important">
+            <div class="modal-content">
+                <div class="modal-header bg-light-primary justify-content-center">
+                    <h5 class="modal-title" style="color:blue;margin:0px;">
+                        Link New Company
+                    </h5>
+                </div>
+
+                <div class="modal-body d-flex justify-content-center align-items-center">
+                    <div class="row w-100 justify-content-center">
+                        <div class="col-xl-4 m-4">
+                            <label class="form-label text-dark fw-bolder fs-8 required">Company :</label>
+                            <select name="selcompany" id="txtcompanydrop" data-placeholder="Select Company" data-control="select2" class="form-select fs-7 tabindex=" -1"">
+                                <option></option>
+                            </select>
+                        </div>
+                        <div class="col-xl-4 m-4">
+                            <label class="form-label text-dark fw-bolder fs-8 required">Role :</label>
+                            <select name = "selrole" id="txtroledrop" data-placeholder="Select Role" data-control="select2" class="form-select fs-7 tabindex=" -1"">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-sm btn-primary" id="btnAddCompany">Link</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

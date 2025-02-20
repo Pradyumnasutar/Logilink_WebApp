@@ -1,0 +1,88 @@
+﻿@using LeS_LogiLink_WebApp.Models
+@inject IUserDefaultData UserData
+@{
+    Layout = null;
+   
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogiLink</title>
+    <link rel="stylesheet" href="~/css/Login.css">
+    <link rel="shortcut icon" id="shorticon" href="~/assets/media/logos/LeS-Logo.png" />
+    <style>
+        .footer-logo {
+            width: 110px;
+            height: auto;
+            margin: 0 5px;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-container {
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h2>Welcome!</h2>
+        <h4>Login to your account</h4>
+        <div class="fonterror mb-5" style="text-align-last: center"><b class="Errorfont"> @ViewBag.Message <br />@ViewBag.Notice</b></div>
+        @*<div class="fonterror mb-5" style="text-align-last: center"><b> hey this is sample test<br />Hey this is also sampel</b></div>*@
+
+        <form action="@Url.Action("LoginInByCredentials", "Authenticate")" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+            <button type="submit">Sign In</button>
+             <a class="microsoft-button" href="@Url.Action("LoginInByMicrosoft", "Authenticate")" style="text-decoration: none;"> 
+            <span class="microsoft-icon">
+            <img src="~/assets/media/misc/image_2023_07_13T06_30_18_383Z.png" alt="Microsoft Icon" />
+            </span>
+            <span class="microsoft-text" style="margin-left:10px">Sign in with Microsoft</span>
+            </a> 
+            <span id="lblVersion" style="display:none"> </span>
+        </form>
+        <div class="footer-container">
+            <a style="margin-top: 5px;text-decoration: unset;color: white;margin-top: 5px;" class="fs-lg-7 fs-md-7 fs-8 fw-bold text-gray-700" href="https://lesconnect.io/" target="_blank">
+                Powered By
+                <div class="footer-content">
+                    <img alt="Logo" src="~/assets/media/logos/LeSConnectLogos_MainLogo.png" alt="LES Logo" class="footer-logo">
+                </div>
+            </a>
+        </div>
+    </div>
+
+    
+    @*<script src="~/assets/js/custom/authentication/login.js"></script>*@
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/assets/plugins/global/plugins.bundle.js"></script>
+    <script src="~/assets/js/scripts.bundle.js"></script>
+    <script src="~/assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
+    <script src="~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+    <script src="~/assets/plugins/custom/datatables/datatables.bundle.js"></script>
+    <script src="~/assets/plugins/custom/tagsinput/bootstrap-tagsinput.js"></script>
+    
+   
+</body>
+</html>
+
+

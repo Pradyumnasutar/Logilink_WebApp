@@ -1,0 +1,124 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logistics Management</title>
+    <link rel="stylesheet" href="~/css/Logout.css">
+    <link rel="shortcut icon" id="shorticon" href="~/assets/media/logos/logo_LeS.png" />
+</head>
+<style>
+    .footer-logo {
+        width: 110px;
+        height: auto;
+        margin: 0 5px;
+    }
+
+    .footer-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .footer-container {
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        padding: 10px 0;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+    }
+</style>
+<body>
+    <div class="container" style="display:none;">
+        <label id="msg">@ViewBag.EpodLogout</label>
+        <h3>Click below link to scan QR code and login again</h3>
+        <a class="text-primary" id="idLoginLink" onmouseover="MouseOver()" onmouseout="MouseOut()" onclick="Logout()" href="#">
+            Electronic Proof Of Delivery
+        </a>
+    </div>
+
+    <div class="footer-container">
+        <a style="margin-top: 5px;text-decoration: unset;color: white;margin-top: 5px;" class="fs-lg-7 fs-md-7 fs-8 fw-bold text-gray-700" href="https://lesconnect.io/" target="_blank">
+            Powered By
+            <div class="footer-content">
+                <img alt="Logo" src="~/assets/media/logos/LeSConnectLogos_MainLogo.png" alt="LES Logo" class="footer-logo">
+            </div>
+        </a>
+    </div>
+
+
+
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/assets/plugins/global/plugins.bundle.js"></script>
+    <script src="~/assets/js/scripts.bundle.js"></script>
+    <script src="~/Scripts/jsqr.js"></script>
+    <script src="~/assets/js/custom/GuestEPOD/EpodLogout.js"></script>
+    <script type="text/javascript">
+
+        let latitude = null;
+        let longitude = null;
+        // var pathname = window.location.pathname;
+        var pathname = "";
+        if (window.location.hostname.indexOf('localhost') > -1) pathname = '';
+        if (pathname.indexOf('/') > -1) { pathname = '/' + pathname.split('/')[1]; }
+        const x = document.getElementById("msg");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            latitude = Str(position.coords.latitude);
+            longitude = Str(position.coords.longitude);
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            }
+            // Get the parameters
+            var shipmentdata = getUrlParameter('shipmentdata');
+            loginUrlCrewDetails(shipmentdata);
+        }
+
+        function loginUrlCrewDetails(shipmentdata) {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: pathname + '/GuestEPOD/EPODLoginByURl', data: { "shipmentdata": shipmentdata, "latitude": latitude, "longitude": longitude },
+                success: function (ds) {
+                    ret = ds;
+                    if (ret != null && ret.result != null && ret.result != undefined && ret.result != true && ret.msg != undefined) {
+                        $('.container').show();
+                        $('#msg').text(ret.msg);
+                    }
+                    else if (ret != null && ret.result != null && ret.result != undefined && ret.result == true) {
+                        window.location.href = '/GuestEPOD/epodshipmentdetails'
+                    }
+                },
+                error: function (e) {
+                    if (t == false) { ret = -1 } else { if (e.responseJSON != undefined) ret = e.responseJSON.Message; else ret = e.responseText; }
+                }
+            });
+        }
+
+        function Str(v) { if (v == undefined || v == null || v == 'undefined' || v.toString() == '[object Object]' || v.toString() == 'NaN') return ''; else return v.toString().trim(); };
+        function Int(v) { if (Str(v) == '' || isNaN(parseInt(v))) return 0; else return parseInt(v); };
+        function Float(v) { if (Str(v) == '' || isNaN(parseFloat(v))) return 0; else return parseFloat(v); };
+
+        $(document).ready(function () {
+            getLocation();
+            // Function to get URL query parameters
+
+        });
+    </script>
+</body>
+</html>

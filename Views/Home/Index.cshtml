@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using LeS_LogiLink_WebApp.Models
+@inject IUserDefaultData UserData
+@{
+    Layout = "~/Views/Shared/_BaseMaster.cshtml";
+    ViewData["Title"] = "Home";
+}
+@section scripts{
+    <link rel="stylesheet" href="~/css/Index.css">
+    
+}
+
+@*<div style="text-align:center">
+        <img src="~/assets/media/LandPage/Port-pana.svg" alt="Oops" height="550px" />
+    </div>*@
+<div class="container">
+    <div class="backgroundIMG">
+    </div>
+    <div class="centered">
+        @* <div>
+            <img src="~/assets/media/logos/@HttpContextAccessor.HttpContext.Session.GetString("LOGOPATH")" style="height:100px" alt="logo" />
+        </div> *@
+        <span class="Wheader">
+                   
+            Hi @UserData.username
+          
+        </span>
+        <div class="Wheader-1">
+            Welcome to LogiLink !
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,283 @@
+﻿@{
+    ViewData["Title"] = "Delivery Order List";
+    Layout = "~/Views/Shared/_BaseMasterList.cshtml";
+}
+@section tableheader{
+    <th class="text-gray-700" style="width:5%">
+         <label class="checkbox">
+            <input type="checkbox" class="form-check-input h-15px w-15px" style="border:1px solid rgba(0,0,0,.50)" id="CheckAll" name="Checkboxes1">
+            <span></span>         
+        </label> 
+    </th>
+    <th>DO No.</th>
+    <th>Party</th>
+    <th>Sales Order No.</th>
+    <th>Shipment Date</th>
+    <th>Vessel Name</th>
+    <th>Vessel ETA</th>
+    <th>Job No Code</th>
+    <th>International Dept Code</th>
+    <th>Status</th>
+    <th>Shipment No.</th>
+    <th>Sales Person Code</th>
+    <th>Attachment</th>
+
+
+}
+
+@section AdditionalActions{
+    <button id="btnAsssigntoship" class="btn btn-sm btn-success ModuleAccess" data-module="2" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+        <i class="bi la-cart-plus fs-3 me-2"></i>Assign To Shipment
+    </button>
+    <button class="btn btn-sm btn-primary ModuleAccess" data-module="10" data-access_level="3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="btnPrintDeliveryOrder">
+        <i class="bi bi-printer fs-3 me-2"></i> Export List
+    </button>
+    
+    @*  <button id="btnExport" class="btn btn-sm btn-primary ModuleAccess" data-module="1001" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" >
+        <i class="fas fa-paper-plane fs-3 me-2"></i>Export List
+    </button>
+    <button id="btnPrintDo" class="btn btn-sm btn-primary ModuleAccess" data-module="1001" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" >
+        <i class="bi bi-printer fs-3 me-2"></i>Print Delivery Order
+    </button> *@
+}
+
+@section QuickFilter {
+    <div class="dropdown">
+        <button id="dropdownMenuButton" class="btn btn-sm btn-secondary dropdown-toggle ModuleAccess" data-module="1,2" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            Quick Filter
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <!-- Inline CSS added here -->
+            <li><button class="dropdown-item" id="btnUnassignedDO" type="button">Unassigned DO</button></li>
+            <li><button class="dropdown-item" id="btnShipmentIn14Days" type="button">Shipment In 14 Days</button></li>
+        </ul>
+    </div>
+}
+
+
+@section filtertitle
+    {
+    <input id="ShipmentNotags" class="form-control tagify" />
+    <input id="CustomerCodetags" class="form-control tagify" />
+    <input id="Customertags" class="form-control tagify" />
+    <input id="TransportTypetags" class="form-control tagify" />
+    <input id="Statustags" class="form-control tagify" />
+    <input id="JobNotags" class="form-control tagify" />
+    <input id="Vesseltags" class="form-control tagify" />
+}
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script> *@
+
+@section filterAccbody{
+    <div class="row">
+        <!--begin::Input group-->
+        <div class="mb-2 col-md-3">
+            <!--begin::Label-->
+            <label class="form-label fw-bolder text-gray-700 fs-7">DO No :</label>
+            <!--end::Label-->
+            <!--begin::Input-->
+            <div>
+                <input id="txtDONo" type="text" value="" class="form-control form-control-sm" placeholder="Delivery Order No">
+            </div>
+            <!--end::Input-->
+        </div>
+        <!--end::Input group-->
+        <!--begin::Input group-->
+        <div class="mb-2 col-md-3">
+            <!--begin::Label-->
+            <label class="form-label fw-bolder text-gray-700 fs-7">Party :</label>
+            <!--end::Label-->
+            <!--begin::Input-->
+            <select name="selcustomer" id="selcustomer" data-placeholder="Select Party" data-control="select2" class="form-select fs-7" tabindex="-1">
+                <option></option>
+
+            </select>
+          
+            <!--end::Input-->
+        </div>
+        
+        <!--begin::Input group-->
+        <div class="mb-2 col-md-3">
+            <!--begin::Label-->
+            <label class="form-label fw-bolder text-gray-700 fs-7">DO.Status :</label>
+            <!--end::Label-->
+            <!--begin::Input-->
+            <div>
+                <select name="selstatus" id="selstatus" data-placeholder="Select Status..." data-control="select2" class="form-select fs-7" tabindex="-1">
+                    <option></option>
+
+                </select>
+            </div>
+            <!--end::Input-->
+        </div>
+        <div class="mb-2 col-md-3">
+            <label class="form-label fw-bolder text-gray-700 fs-7">Shipment No :</label>
+            <div>
+                <input id="txtShipmentNo" type="text" class="form-control form-control-sm" placeholder="Shipment No">
+            </div>
+        </div>
+        <!--end::Input group-->
+
+
+
+
+    </div>
+
+    <div class="row">
+        <div class="mb-2 col-md-3">
+            <label class="form-label fw-bolder text-gray-700 fs-7">Shipment Date :</label>
+            <div>
+                <input id="dtshipment" type="date" class="form-control dateField form-control-sm" placeholder="Shipment Date">
+            </div>
+        </div>
+
+        <div class="mb-2 col-md-3">
+            <label class="form-label fw-bolder text-gray-700 fs-7">Date From :</label>
+            <div>
+                <input id="dtdatefrom" type="date" class="form-control dateField form-control-sm" placeholder="Date From">
+            </div>
+        </div>
+
+        <div class="mb-2 col-md-3">
+            <label class="form-label fw-bolder text-gray-700 fs-7">Date To :</label>
+            <div>
+                <input id="dtdateto" type="date" class="form-control dateField form-control-sm" placeholder="Date To">
+            </div>
+        </div>
+
+        
+    </div>
+}
+
+@section scripts{
+    <style>
+        .well {
+            position: relative;
+            overflow: hidden;
+        }
+
+        fieldset {
+            display: block;
+            margin: 0 10px;
+            float: left;
+        }
+
+        .dropdown-menu {
+            padding: 0.5rem 0;
+            min-width: auto;
+        }
+
+        .dropdown-item {
+            padding: 0.5rem 1rem;
+        }
+
+            .dropdown-item + .dropdown-item {
+                margin-top: 0.25rem;
+            }
+    </style>
+    <script src="~/assets/js/custom/orders/deliveryorderlist.js"></script>
+
+}
+@section Modals{
+    <div class="modal fade align-content-center" data-backdrop="static" data-keyboard="false" aria-hidden="true" tabindex="-1" id="modallocation">
+        <div class="modal-dialog " role="document" style="max-width: 600px !important">
+            <div class="modal-content">
+                <div class="modal-header bg-light-primary justify-content-center">
+                    <h5 class="modal-title" style="color:blue;margin:0px;">
+                        Assign To Shipment
+                    </h5>
+
+                </div>
+                <input id="itemkey1" value="-1" class="hide" />
+                <div class="modal-body p-10 ">
+                    <!--begin::Input group-->
+                    <div class="justify-content-center" style="text-align:center;">
+                        <label class="form-label fw-bolder text-gray-700 fs-7">
+                            You have selected <span id="selDOrder"></span> Delivery Orders to assign to a Outbound Shipment.
+                        </label>
+                    </div>
+                    <div class="row col-md-12 mt-4 itemupdate justify-content-center">
+                        <div class="mt-2 col-md-3">
+                            <label class="form-label fw-bolder text-gray-700 fs-7">
+                                Select Shipment :
+                            </label>
+                        </div>
+                        <div class="mb-2 col-md-5">
+
+                            <div id="modalItems">
+                                @*<select name="selShipment" id="toShipmentList" class="form-select fs-7" data-control="select2" data-placeholder="Select Shipment..." tabindex="-1">
+                            <option></option>
+                            </select>*@
+                                <select name="selShipment" id="toShipmentList" data-placeholder="Select Shipment..." data-control="select2" class="form-select fs-7 " tabindex="-1">
+                                    <option></option>
+
+                                </select>
+                                <!--end::Input-->
+                            </div>
+                        </div>
+                        <div class="mb-2 col-xl-2">
+                            @*<a href="#" id="btnAddproject" class="btn btn-sm btn-success ModuleAccess" data-module="1020" data-access_level="2,3" title="Add Project"><i class="flaticon2-add"></i></a>*@
+                            <a href="#" id="btnCreateShipment" class="btn btn-sm btn-success ModuleAccess"><i class="flaticon2-add"></i></a>
+                        </div>
+                        <div class="text-muted fs-7 fw-bold" style="text-align:center;">
+                            Note: To assign delivery orders to a shipment, it is mandatory to match the Customer, Vessel Name, Vessel Date, and Job Number.
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-sm btn-success ModuleAccess" data-module="2" data-access_level="2,3" style="" id="btnAssignConform">Confirm</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade align-content-center" data-backdrop="static" data-keyboard="false" aria-hidden="true" tabindex="-1" id="modalAttachment">
+        <div class="modal-dialog " role="document" style="max-width: 600px !important">
+            <div class="modal-content">
+                <div class="modal-header bg-light-primary justify-content-center">
+                    <h5 class="modal-title" style="color:blue;margin:0px;">
+                        Download Attachments
+                    </h5>
+
+                </div>
+                <input id="itemkey" value="-1" class="hide" />
+                <div class="modal-body p-5 ">
+                    <!--begin::Input group-->
+                    <div class="justify-content-center" style="text-align:center; display:none;">
+                        <label class="form-label fw-bolder text-gray-700 fs-7">
+                            You have selected <span id="selDOrder"></span> Delivery Orders to assign to a Outbound Shipment.
+                        </label>
+                    </div>
+                    <div class="row col-md-12 mt-2 itemupdate justify-content-center">
+
+                        <div class="col-md-12 mb-3 mt-2">
+
+                            <table id="tblshipmentDocuments" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3 ">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light">
+                                        <th></th>
+                                        <th>No.</th>
+                                        <th>Attachments</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Cancel</button>
+                    @* <button type="button" class="btn btn-sm btn-success ModuleAccess" data-module="2" data-access_level="2,3" style="display:none;" id="btnAssignConform">Confirm</button> *@
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+

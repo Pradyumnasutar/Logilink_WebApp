@@ -1,0 +1,532 @@
+﻿@{
+
+    ViewData["Title"] = "Delivery Order Details";
+    Layout = "~/Views/Shared/_BaseMasterDetail.cshtml";
+}
+
+@section scripts{
+    
+    <style>
+        .detail {
+            position: absolute;
+            right: 32px;
+        }
+
+        .disableClick {
+            pointer-events: none;
+        }
+
+        .button-column {
+            display: flex;
+            justify-content: center;
+            margin: 5px;
+            padding: 8px;
+            align-items: center;
+            background-color: #787373; /* Primary button color */
+            color: white;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+    </style>
+
+    <script>
+
+    </script>
+    <script type="module" src="~/assets/js/custom/Orders/DeliveryOrderDetails.js"></script>
+}
+@section ActionList{
+    <button id="btnPrintDeliveryOrder" class="btn btn-sm btn-primary ModuleAccess" data-module="2" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+        <i class="bi bi-printer fs-3 me-2"></i>
+        Print Delivery Order
+    </button>
+    <button id="btnCancelDeliveryOrder" class="btn btn-sm btn-danger"  data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" onclick="NavigatePage('/Orders/DeliveryOrderList')">
+        <i class="fas fa-arrow-circle-left fs-3 me-2"></i> Back
+    </button>
+    
+}
+
+<div class="fv-row g-4">
+    <div class="row form-group mb-0 py-3 px-5">
+        <div class="col-xl-12">
+            
+                <div class="row">
+                <div id="tbOrderinfo" class="col-md-2 button-column">
+                        Order Information
+                    </div>
+                    <div id="tbShippingDetails" class="col-md-2 button-column">
+                        Shipping Details
+                    </div>
+                    <div id="tbOrderLines" class="col-md-2  button-column">
+                        Order Lines
+
+                    </div>
+                </div>
+            
+            <div class="row mt-4">
+                <span class="form-label text-dark fw-bolder">
+                    Order Information
+                </span>
+                <div class="col-xl-4">
+                    <label class="form-label text-dark fw-bolder fs-8 ">
+                        Delivery Order No :
+                    </label>
+                    <input type="text" id="txtDeliveryOrderno" class="form-control form-control-sm fs-7 text-dark" disabled="disabled" />
+
+                </div>
+
+                <div class="col-xl-4">
+                    <label class="form-label text-dark fw-bolder fs-8 ">
+                        Status :
+                    </label>
+                    <input type="text" id="txtstatus" class="form-control form-control-sm fs-7 text-dark" disabled="disabled" />
+
+                </div>
+                <div class="col-xl-4">
+                    <label class="form-label text-dark fw-bolder fs-8 ">
+                        Shipment No. :
+                    </label>
+                    <input type="text" id="txtshipmentNo" class="form-control form-control-sm fs-7 text-dark" disabled="disabled" />
+
+                </div>
+            </div>
+
+        </div>
+        <div class="separator separator-dotted border-1 border-dark my-5"></div>
+    </div>
+</div>
+<!--begin::Col-->
+
+    <div class="col-xl-12 px-0 min-h-400px">
+        <div class="card card-xl-stretch">
+
+            <!--begin::Card Body-->
+            <div class="card-body py-3 px-5">
+                <div class="tab-content" id="myTabContent">
+                    <!--begin::tab panel 1-->
+                    <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
+                        <div class="row gy-5 g-xl-12">
+                            <div class="col-xl-12 border-gray-500">
+                                <!--begin::Row 1-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Sales Order No :
+                                            </label>
+                                        <input type="text" id="txtSalesOrderNo" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Quote No :
+                                            </label>
+                                        <input type="text" id="txtQuoteNo" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Job No. :
+                                            </label>
+                                        <input type="text" id="txtJobNoCode" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                </div>
+                                <!--end::Row 1-->
+                                <!--begin::Row 2-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                            Party Code :
+                                            </label>
+                                        <input type="text" id="txtCustomerCode" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                            Party Name :
+                                            </label>
+                                        <input type="text" id="txtCustomerName" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Contact :
+                                            </label>
+                                        <input type="text" id="txtContact" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                </div>
+                                <!--end::Row 2-->
+                                <!--begin::Row 3-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Vessel Code :
+                                            </label>
+                                        <input type="text" id="txtVesselCode" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Vessel Name :
+                                            </label>
+                                        <input type="text" id="txtVesselName" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Vessel ETA :
+                                            </label>
+                                        <input type="text" id="txtVesselETA" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                </div>
+                                <!--end::Row 3-->
+                                <!--begin::Row 4-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Posting Date :
+                                            </label>
+                                        <input type="text" id="txtPostingDate" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Requested Delivery Date :
+                                            </label>
+                                        <input type="text" id="txtReqDeliveryDate" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Promised Delivery Date :
+                                            </label>
+                                        <input type="text" id="txtPromisedDeliveryDate" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                </div>
+                                <!--end::Row 4-->
+                                <!--begin::Row 5-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Customer Dept Code :
+                                            </label>
+                                        <input type="text" id="txtCustDeptCode" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Internal Dept :
+                                            </label>
+                                        <input type="text" id="txtInternalDept" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Mark Reference No :
+                                            </label>
+                                        <input type="text" id="txtMarkRefNo" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                </div>
+                                <!--end::Row 5-->
+                                <!--begin::Row 6-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Parent Customer :
+                                            </label>
+                                        <input type="text" id="txtParentCustomer" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                PO No. :
+                                            </label>
+                                        <input type="text" id="txtPONo" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--end::Row 6-->
+                            <!--begin::Table -->
+                            <div class="row col-md-12 mt-2 itemupdate justify-content-center">
+
+                                <div class="col-md-12 mb-3 mt-2">
+
+                                    <table id="tblshipmentDocuments" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3 ">
+                                        <thead>
+                                            <tr class="fw-bolder text-muted bg-light">
+                                                <th></th>
+                                                <th>No.</th>
+                                                <th>Attachments</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <!--end::Table -->
+
+                            </div>
+                            <!-- end::Side Date Panel-->
+                        </div>
+
+
+                    </div>
+                    <!--end::tab panel 1-->
+
+                    <!--begin::tab panel 2-->
+                    <div class="tab-pane fade" id="kt_tab_pane_2" role="tabpanel">
+                        <div class="row gy-5 g-xl-12">
+                            <div class="col-xl-12 border-gray-500">
+                                <!--begin::Row 1-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Address Code :
+                                            </label>
+                                        <input type="text" id="txtAddressCode" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Shipment Date :
+                                            </label>
+                                        <input type="text" id="txtShipmentDate" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <!--end::Row 1-->
+                                <!--begin::Row 2-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Address :
+                                            </label>
+                                        <input type="text" id="txtAddress" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Contact Person :
+                                            </label>
+                                        <input type="text" id="txtContactPerson" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+
+                                        
+                                    </div>
+                                </div>
+                                <!--end::Row 2-->
+                                <!--begin::Row 3-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Address 2 :
+                                            </label>
+                                        <input type="text" id="txtAddress2" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                 contact No :
+                                            </label>
+                                        <input type="text" id="txtContactNo" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+
+                                        
+                                    </div>
+                                </div>
+                                <!--end::Row 3-->
+                                <!--begin::Row 4-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Address 3 :
+                                            </label>
+                                        <input type="text" id="txtAddress3" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Email Address :
+                                            </label>
+                                        <input type="text" id="txtEmailAddress" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+
+                                        
+                                    </div>
+                                </div>
+                                <!--end::Row 4-->
+                                <!--begin::Row 5-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Address 4 :
+                                            </label>
+                                        <input type="text" id="txtAddress4" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Location Code :
+                                            </label>
+                                        <input type="text" id="txtLocationCode" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--end::Row 5-->
+                                <!--begin::Row 6-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Postal Code :
+                                            </label>
+                                        <input type="text" id="txtPostalCode" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                               Agent :
+                                            </label>
+                                        <input type="text" id="txtAgent" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Row 6-->
+                                <!--begin::Row 7-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                City :
+                                            </label>
+                                        <input type="text" id="txtCity" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Agent Service :
+                                            </label>
+                                        <input type="text" id="txtAgentService" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--end::Row 7-->
+                                <!--begin::Row 8-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-6">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Country / Region :
+                                            </label>
+                                        <input type="text" id="txtCountryRegion" value="" class="form-control form-control-sm fs-7 text-dark" placeholder="-" disabled="disabled" />
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <!--end::Row 8-->
+
+                            </div>
+                            <!-- end::Side Date Panel-->
+                        </div>
+
+
+                    </div>
+                    <!--end::tab panel 2-->
+
+                    <!--begin::tab panel 3-->
+                    <div class="tab-pane fade" id="kt_tab_pane_3" role="tabpanel">
+                    <div class="table-responsive mt-0">
+                        <!--begin::Table-->
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center justify-content-between flex-lg-grow-1" id="divTableTools">
+                                <div class="d-flex align-items-center mt-1">
+                                    <label class="form-label text-uppercase fw-bolder text-dark fs-8">Total Records : <span id="DOLinesTotalRecord"></span></label>
+                                </div>
+                                <div class="d-flex align-items-center me-2">
+                                    <!--begin::Search-->
+                                    @*<div class="d-flex justify-content-end">
+
+                                        <a href="#" data-action="AddItem" id="btnAddNewItem" class="btn btn-icon btn-outline-primary btn-sm mr-2 itemaction"><i class="flaticon2-add"></i></a>
+                                    </div>*@
+                                    @*  <a href="#" data-action="EditItem" id="btnEditItem" class="btn btn-icon btn-outline-primary btn-sm mr-2 itemaction ModuleAccess" data-module="1003" data-access_level="2,3" style=""><i class="flaticon2-edit"></i></a>
+                                    <a href="#" data-action="RemoveItem" id="btnRemovepartline" class="btn btn-icon btn-outline-primary btn-sm mr-2 itemaction ModuleAccess" data-module="1003" data-access_level="3" style="" title="Remove Part Order Line"><i class="flaticon-delete"></i></a>*@
+                                    <!--end::Search-->
+                                </div>
+                            </div>
+
+                            <div class="hide my-5" id="divTableHeader">
+                                <label class="form-label fw-bolder text-uppercase fs-7 ps-2 w-100" id="mainTitle"></label>
+                                <label class="fw-bold text-gray-700 fs-8 ps-2" id="subTitle"></label>
+                            </div>
+                        </div>
+                        <table id="tblOrderLines" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                            <!--begin::Table head-->
+                            <thead>
+                                <tr class="fw-bolder text-muted bg-light">
+                                   
+                                    <th>Row No.</th>
+                                    <th>Item No.</th>
+                                    <th>Item Ref No.</th>
+                                    <th>Description</th>
+                                    <th>Loc Code</th>
+                                    <th>Quantity</th>
+                                    <th>UOM</th>
+                                    <th>Internal Dept Code</th>
+                                    <th>AWB/BL</th>
+                                    <th>Job No. Code</th>
+                                    <th>Vsl Code</th>
+                                    <th>SalesPerson</th>
+                                    <th>Broker Code</th>
+                                    <th>Customer Dept Code</th>
+                                    <th>Quantity Invoiced</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <!--end::Table-->
+                    </div>
+                    </div>
+                    <!--end::tab panel 3-->
+                </div>
+            </div>
+            <!--end::Card Body-->
+        </div>
+    </div>
+    <!--end::Col-->
+

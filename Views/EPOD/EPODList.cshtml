@@ -1,0 +1,221 @@
+﻿@{
+    ViewData["Title"] = "Electronic Proof Of Delivery List";
+    Layout = "~/Views/Shared/_BaseMasterList.cshtml";
+}
+@section AdditionalActions {
+    <button class="btn btn-sm btn-primary ModuleAccess" data-module="11" data-access_level="3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="btnEpodList">
+        <i class="bi bi-printer fs-3 me-2"></i> Export List
+    </button>
+}
+@section tableheader {
+
+@*     <th><input type="checkbox" class="checkbox"></th>
+ *@  <th>Shipment No.</th>
+    <th>Status</th>
+    <th>Shipment Order</th>
+    <th>Good Return Report</th>
+    <th>Delivery Date</th>
+    <th>Party</th>
+    <th>Job No. Code</th>
+    <th>Vessel Name</th>
+    <th>Anchorage</th>
+    <th>Agent</th>
+    <th>Supply Boat</th>
+    <th>Transport Type</th>
+    <th>Driver </th>
+    <th>Truck No</th>
+    <th>Boarding Officer</th>
+
+}
+@section tablebody {
+
+
+}
+
+@section QuickFilter {
+    <div class="dropdown">
+        <button id="dropdownMenuButton" class="btn btn-sm btn-secondary dropdown-toggle ModuleAccess" data-module="1,2" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            Quick Filter
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><button class="dropdown-item" id="btnOpenStatus" type="button">Open Status</button></li>
+            <li><button class="dropdown-item" id="btnInitialReceiptCompleted" type="button">Initial Receipt Completed</button></li>
+            <li><button class="dropdown-item" id="btnFinalReceiptCompleted" type="button">Final Receipt Completed</button></li>
+        </ul>
+    </div>
+}
+@section filtertitle
+{
+    <input id="ShipmentNotags" class="form-control tagify" />
+    <input id="CustomerCodetags" class="form-control tagify" />
+    <input id="Customertags" class="form-control tagify" />
+    <input id="TransportTypetags" class="form-control tagify" />
+    <input id="Statustags" class="form-control tagify" />
+    <input id="JobNotags" class="form-control tagify" />
+    <input id="Vesseltags" class="form-control tagify" />
+    <input id="Viewastags" class="form-control tagify" />
+    <input id="fromdatetags" class="form-control tagify" />
+    <input id="todatetags" class="form-control tagify" />
+}
+@section filterAccbody {
+    <div class="row">
+
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">Shipment No :</label>
+
+            <div>
+                <input id="txtShipmentNo" type="text" placeholder="Shipment No." class="form-control form-control-sm">
+            </div>
+
+        </div>
+
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">Party :</label>
+
+            <select name="Selcustomer" id="selcustomer" data-placeholder="Select Party" data-control="select2" class="form-select fs-7" tabindex="-1">
+                <option></option>
+
+            </select>
+
+        </div>
+
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">Vessel Name :</label>
+
+            <div>
+                <input id="txtVessel" type="text" placeholder="Vessel Name" class="form-control form-control-sm">
+            </div>
+
+        </div>
+
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">Transport Type :</label>
+
+            <div>
+                <select name="selTransportTypes" id="selTransportType" data-placeholder="Select Transport Type" data-control="select2" class="form-select fs-7" tabindex="-1">
+                    <option></option>
+
+                </select>
+            </div>
+
+        </div>
+        
+    </div>
+
+    <div class="row">
+
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">Status :</label>
+
+            <div>
+                <select name="selStatus" id="selStatus" data-placeholder="Select Status" data-control="select2" class="form-select fs-7" tabindex="-1">
+                    <option></option>
+
+                </select>
+            </div>
+
+        </div>
+
+
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">Job No :</label>
+
+            <div>
+                <input id="txtJobNo" type="text" placeholder="Job Order No" class="form-control form-control-sm">
+            </div>
+
+        </div>
+
+        
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">Delivery Date From:</label>
+
+            <div>
+                <input type="text" id="fromDate" value="" placeholder="From Date" class="form-control dateField form-control-sm fs-7 text-dark" />
+            </div>
+
+        </div>
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">Delivery Date To:</label>
+
+            <div>
+                <input type="text" id="toDate" value="" placeholder="To Date" class="form-control dateField form-control-sm fs-7 text-dark" />
+            </div>
+
+        </div>
+    </div>
+}
+
+@section scripts {
+    <style>
+        .well {
+            position: relative;
+            overflow: hidden;
+        }
+
+        fieldset {
+            display: block;
+            margin: 0 10px;
+            float: left;
+        }
+
+        .dropdown-menu {
+            padding: 0.5rem 0;
+            min-width: auto;
+        }
+
+        .dropdown-item {
+            padding: 0.5rem 1rem;
+        }
+
+            .dropdown-item + .dropdown-item {
+                margin-top: 0.25rem;
+            }
+    </style>
+    <script src="~/assets/js/custom/EPOD/Epodlist.js"></script>
+    @{
+        string Print_Key = ViewData["Print_Key"] as string;
+
+    }
+
+    <script>
+        var EpodDetailUrl = '@Url.Action("EpodDetailsByUrl", "EPOD")';
+        var Print_Key = '@Print_Key';
+    </script>
+}
+
+@section Modals {
+    <div class="modal fade align-content-center" data-backdrop="static" data-keyboard="false" aria-hidden="true" tabindex="-1" id="printModal">
+        <div class="modal-dialog " role="document" style="max-width: 600px !important">
+            <div class="modal-content">
+                <div class="modal-header bg-light-primary justify-content-center">
+                    <h5 class="modal-title" style="color:blue;margin:0px;">
+                        Print Outbound Shipment
+                    </h5>
+                </div>
+
+                <div class="modal-body p-5">
+                    <div class="form-check form-switch d-flex">
+                        <label class="form-check-label me-20" for="flexSwitchCheckDefault">Print with all appended Delivery Orders: </label>
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    </div>
+                </div>
+
+
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-sm btn-primary" id="confirmPrint">Print</button>
+                    <button type="button" class="btn btn-sm btn-success" id="previewbtn">Preview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

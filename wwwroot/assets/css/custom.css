@@ -1,0 +1,49 @@
+.form-label {
+    font-size: 0.95rem;
+}
+
+.select2-selection__rendered {
+    font-size: 0.90rem;
+}
+
+.form-control {
+    font-size: 0.90rem;
+}
+
+.form-select {
+    font-size: 0.90rem;
+}
+
+.checkbox {
+    font-size: 0.90rem;
+}
+
+.tagify__tag {
+    font-size: 0.85rem;
+    z-index: auto;
+    background-color: #fff;
+}
+
+    .tagify__tag > div {
+        max-width: 150px;
+        overflow: hidden;
+    }
+
+.tagify__tag-text {
+    text-overflow: ellipsis;
+}
+
+.tagify__tag > div > * {
+    white-space: nowrap;
+}
+
+.symbol.symbol-25px > img {
+    width: 25px;
+    height: 25px;
+}
+.select2-results__option .select2-results__option--selectable {
+    font-size: 0.90rem;
+}
+
+
+

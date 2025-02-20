@@ -1,0 +1,52 @@
+﻿@model List<LeS_LogiLink_WebApp.Controllers.Customer>
+@{
+
+    ViewData["Title"] = "Customer";
+    Layout = "~/Views/Shared/_BaseMasterList.cshtml";
+}
+
+@section scripts {
+
+    <script src="~/assets/js/custom/masters/CustomerCard.js"></script>
+    @{
+        string Print_Key = ViewData["Print_Key"] as string;
+
+    }
+
+    <script>
+        var Print_Key = '@Print_Key';
+    </script>
+}
+
+@section AdditionalActions {
+
+    <button id="btnexportcustomercard" class="btn btn-sm btn-primary ModuleAccess" data-module="4" data-access_level="1,2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+        <i class="bi bi-printer fs-3 me-2"></i> Export List
+    </button>
+}
+
+@section tableheader{
+    <th style="display:none;"></th>
+    <th class="min-w-40px text-gray-700 px-3" style="width:10%">Customer code</th>
+    <th class="min-w-40px text-gray-700" style="width:50%">Description</th>
+    @*<th class="min-w-40px text-gray-700" style="width:10%">Action</th>*@
+
+}
+
+@section tablebody{
+    @{
+        foreach (var eachmodel in Model)
+        {
+            <tr id="row">
+                <td style="display:none;">@eachmodel.CustomerId</td>
+                <td class="min-w-40px px-3" style="width:10%">@eachmodel.Cust_Code</td>
+                <td class="min-w-40px" style="width:50%">@eachmodel.Cust_Name</td>
+                
+
+            </tr>
+        }
+
+
+    }
+
+}

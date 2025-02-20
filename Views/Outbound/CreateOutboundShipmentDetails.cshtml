@@ -1,0 +1,587 @@
+﻿@model Logistic_Management_Lib.CreateShipmentOrderModal
+
+@{
+    ViewData["Title"] = "Create Outbound Shipment";
+    Layout = "~/Views/Shared/_BaseMasterDetail.cshtml";
+}
+@section Scripts
+    {
+    <style>
+        .detail {
+            position: absolute;
+            right: 32px;
+        }
+
+        .disableClick {
+            pointer-events: none;
+        }
+
+        .button-column {
+            display: flex;
+            justify-content: center;
+            margin: 5px;
+            padding: 8px;
+            align-items: center;
+            background-color: #787373; /* Primary button color */
+            color: white;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+    </style>
+
+    <script type="module" src="~/assets/js/custom/Outbound/CreateOutboundShipmentDetails.js?162625"></script>
+
+    <script>
+
+        var Model = @Html.Raw(Json.Serialize(@Model));
+    </script>
+
+
+}
+@section ActionList
+    {
+    @*  <button class="btn btn-sm btn-success ModuleAccess" data-module="1044" data-access_level="2,3" data-kt-menu-trigger="click" id="btnPrintPutAway" data-kt-menu-placement="bottom-end" style="display:none;">
+        <i class="bi bi-printer fs-3 me-2"></i>Print PutAway List
+    </button>
+    <button class="btn btn-sm btn-primary ModuleAccess" data-module="1003" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="btnReleaseInboundOrder" style="display:none;">
+        <i class="fas fa-paper-plane fs-3 me-2"></i>Release Inbound Shipment
+    </button> *@
+    <button class="btn btn-sm btn-success ModuleAccess" data-module="1" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="btnSaveInboundShipment">
+        <i class="fas fa-pen fs-3 me-2"></i> Save
+    </button>
+    <button class="btn btn-sm btn-danger" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" onclick="NavigatePage('/Outbound/OutboundShipmentsList')">
+        <i class="fas fa-arrow-circle-left fs-3 me-2"></i> Back
+    </button>
+}
+
+<div class="fv-row">
+    <div class="row form-group mb-7 py-3 px-5">
+        <div class="col-xl-12">
+            <div class="row">
+                <div id="tbshipmentinfo" class="col-md-2 button-column">
+                    Shipment Info
+                </div>
+                <div id="tbtripplan" class="col-md-2 button-column">
+                    Transport Order
+                </div>
+                <div id="tbdeliveryorder" class="col-md-2 button-column">
+                    Delivery Orders
+                </div>
+            </div>
+            <div class="row mt-4">
+                <span class="form-label text-dark fw-bolder">
+                    Order Information
+                </span>
+                <div class="col-xl-4">
+                    <label class="form-label text-dark fw-bolder fs-8 required">
+                        Shipment No:
+                    </label>
+                    <input type="text" id="txtshipmentno" value="" placeholder="System Generated" class="form-control form-control-sm fs-7 text-dark" disabled="disabled" />
+
+                </div>
+                <div class="col-xl-4">
+                    <label class="form-label text-dark fw-bolder fs-8 required">
+                        Job No Code:
+                    </label>
+                    <input type="text" id="txtjobno" value="" placeholder="Job No Code" class="form-control form-control-sm fs-7 text-dark" />
+
+                </div>
+                <div class="col-xl-4">
+                    <label class="form-label text-dark fw-bolder fs-8 required">
+                        Status:
+                    </label>
+                    <select name="selStatus" id="selstatus" data-placeholder="Select Status" disabled data-control="select2" class="form-select fs-7 " tabindex="-1">
+                        <option></option>
+                        @* Add your Status here *@
+                    </select>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="separator separator-dotted border-1 border-dark my-5"></div>
+    </div>
+</div>
+
+
+<div class="col-xl-12 px-0 min-h-400px">
+    <div class="card card-xl-stretch">
+
+        <!--begin::Card Body-->
+        <div class="card-body py-3 px-5">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
+                    <div class="row gy-5 g-xl-12">
+                        <div class="col-xl-12 border-gray-500">
+
+                            <!--begin::Row 1-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8 required">
+                                            Customer :
+                                        </label>
+                                        <select name="selCustomer" id="selcustomer" data-placeholder="Select Customer" data-control="select2" class="form-select fs-7 " tabindex="-1">
+                                            <option></option>
+                                            @* Add your customers here *@
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8 required">
+                                            Vessel :
+                                        </label>
+                                        <select name="selVessel" id="selvessel" data-placeholder="Select Vessel" data-control="select2" class="form-select fs-7 " tabindex="-1">
+                                            <option></option>
+                                            @* Add your vessels here *@
+                                        </select>
+                                    </div>
+
+
+                                    @* <div class="col-xl-4">
+                                    <label class="form-label text-dark fw-bolder fs-8">
+                                    Vessel Name :
+                                    </label>
+                                    <input type="text" id="txtvesselname" value="" class="form-control form-control-sm fs-7 text-dark" />
+
+
+                                    </div>
+                                    <div class="col-xl-4">
+                                    <label class="form-label text-dark fw-bolder fs-8">
+                                    Vessel Code :
+                                    </label>
+                                    <input type="text" id="txtvesselcode" value="" class="form-control form-control-sm fs-7 text-dark" />
+
+
+                                    </div> *@
+                                    <!--end::Col-->
+                                </div>
+                            </div>
+                            <!--end::Row 1-->
+                            <!--begin::Row 2-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8 required">
+                                            Vessel ETA Date Time :
+                                        </label>
+                                        <input type="text" id="txtvesseletadate" value="" placeholder="Vessel ETA Date Time" class="form-control datetimeField form-control-sm fs-7 text-dark" />
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Vessel ATA Date Time :
+                                        </label>
+                                        <input type="text" id="txtvesselatadate" value="" placeholder="Vessel ATA Date Time" class="form-control datetimeField form-control-sm fs-7 text-dark" />
+
+                                    </div>
+
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Anchorage:
+                                        </label>
+                                        <select name="selanchorage" id="selanchorage" data-placeholder="Select Anchorage" data-control="select2" class="form-select fs-7 " tabindex="-1">
+                                            <option></option>
+                                            @* Add your anchorage here *@
+                                        </select>
+
+                                    </div>
+
+
+                                    <!--end::Col-->
+                                </div>
+                            </div>
+                            <!--end::Row 2-->
+                            <!--begin::Row 3-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Loading Point :
+                                        </label>
+                                        <input type="text" id="txtloadingpoint" value="" placeholder="Loading Point" class="form-control form-control-sm fs-7 text-dark" />
+
+
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Loading Date Time :
+                                        </label>
+                                        <input type="text" id="dtloadingtime" value="" placeholder="Loading Time" class="form-control datetimeField form-control-sm fs-7 text-dark" />
+
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8 required">
+                                            Delivery Date  :
+                                        </label>
+                                        <input type="text" id="dtdeliverydate" value="" placeholder="Delivery Date" class="form-control datetimeField form-control-sm fs-7 text-dark" />
+
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                            </div>
+                            <!--end::Row 3-->
+
+                            <div class="separator separator-dotted border-1 border-dark my-5"></div>
+                            <!--begin::Row 4-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Agent :
+                                        </label>
+                                        <input type="text" id="txtagent" value="" placeholder="Agent" class="form-control form-control-sm fs-7 text-dark" />
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Agent Contact Person :
+                                        </label>
+                                        <input type="text" id="txtagentcontactperson" value="" placeholder="Agent Contact Person" class="form-control form-control-sm fs-7 text-dark" />
+                                    </div>
+
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Agent Contact No. :
+                                        </label>
+                                        <input type="number" id="txtagentcontact" value="" placeholder="Agent Contact No" class="form-control form-control-sm fs-7 text-dark" />
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                            </div>
+                            <!--end::Row 4-->
+                            <!--begin::Row 5-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Supply Boat :
+                                        </label>
+                                        <input type="text" id="txtsupplyboat" value="" placeholder="Supply Boat" class="form-control form-control-sm fs-7 text-dark" />
+
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Supply Boat Contact Person :
+                                        </label>
+                                        <input type="text" id="txtboatcontactperson" value="" placeholder="Supply Boat Contact Person" class="form-control form-control-sm fs-7 text-dark" />
+
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Supply Boat Contact No :
+                                        </label>
+                                        <input type="number" id="txtboatcontactno" value="" placeholder="Supply Boat Contact No" class="form-control form-control-sm fs-7 text-dark" />
+
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                            </div>
+                            <!--end::Row 5-->
+                            <!--begin::Row 6-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-xl-6">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Notes :
+                                        </label>
+                                        <textarea id="txtRemarks" maxlength="250" placeholder="Notes" class="form-control fs-7" style="height: 120px;"></textarea>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            C/O Party :
+                                        </label>
+                                        <textarea id="txtcoparty" maxlength="250" placeholder="C/O Party" class="form-control fs-7" style="height: 120px;"></textarea>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--end::Row 6-->
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade " id="kt_tab_pane_2" role="tabpanel">
+                    <div class="row gy-5 g-xl-12">
+                        <div class="col-xl-12 border-gray-500">
+                            <!--begin::Row 1-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Transport Type :
+                                        </label>
+                                        <select name="seltransporttype" id="seltransporttype" data-placeholder="Select Transport Type" data-control="select2" class="form-select fs-7 " tabindex="-1">
+                                            <option></option>
+                                            @* Add your transport types here *@
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Boarding Officer Name:
+                                        </label>
+                                        <input type="text" id="txtboardingofficer" value="" placeholder="Boarding Officer Name" class="form-control form-control-sm fs-7 text-dark" />
+
+                                    </div>
+
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8 ">
+                                            Driver Code :
+                                        </label>
+                                        <input type="text" id="txtdrivercode" value="" placeholder="Driver Code" class="form-control form-control-sm fs-7 text-dark" />
+
+
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                            </div>
+                            <!--end::Row 1-->
+                            <!--begin::Row 2-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Transport Company :
+                                        </label>
+                                        <input type="text" id="txttransportcompany" value="" placeholder="Transport Company" class="form-control form-control-sm fs-7 text-dark" />
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Driver Name:
+                                        </label>
+                                        <input type="text" id="txtdrivername" value="" placeholder="Driver Name" class="form-control form-control-sm fs-7 text-dark" />
+
+                                    </div>
+
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Outsourced Vehicle No. :
+                                        </label>
+                                        <input type="text" id="txtxoutsourcedvehicleno" value="" placeholder="Outsourced Vehicle No" class="form-control form-control-sm fs-7 text-dark" />
+
+
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                            </div>
+                            <!--end::Row 2-->
+                            <!--begin::Row 3-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8 ">
+                                            Vehicle No. :
+                                        </label>
+                                        <input type="text" id="txtVehicalno" value="" placeholder="Vehicle No" class="form-control form-control-sm fs-7 text-dark" />
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Outsourced Contact Person :
+                                        </label>
+                                        <input type="text" id="txtOutsouecedcontactperson" value="" placeholder="Outsourced Contact Person" class="form-control form-control-sm fs-7 text-dark" />
+
+                                    </div>
+
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Driver Contact No:
+                                        </label>
+                                        <input id="txtDriercontact" value="" placeholder="Driver Contact No" class="form-control form-control-sm fs-7 text-dark" oninput="if(this.value<0) this.value=0 ;" onkeypress="return (event.charCode!=45 && event.charCode!=69 && event.charCode!=101)" type="number" min="0" />
+
+
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                            </div>
+                            <!--end::Row 3-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Driver Allowance :
+                                        </label>
+                                        <input id="txtdriverallowance" value="" placeholder="Driver Allowance" oninput="if(this.value<0) this.value=0 ;" onkeypress="return (event.charCode!=45 && event.charCode!=69 && event.charCode!=101)" type="number" min="0" class="form-control form-control-sm fs-7 text-dark" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="separator separator-dotted border-1 border-dark my-5"></div>
+                            <!--begin::Row 4-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Outsourced Contact No :
+                                        </label>
+                                        <input type="number" id="txtoutsourcedcontactno" value="" placeholder="Outsourced Contact No" class="form-control form-control-sm fs-7 text-dark" />
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Estimate No Of Packing Unit :
+                                        </label>
+                                        <input type="number" id="txtpackingunit" value="" placeholder="Estimate No Of Packing Unit" class="form-control form-control-sm fs-7 text-dark" oninput="if(this.value<0) this.value=0 ;" onkeypress="return (event.charCode!=45 && event.charCode!=69 && event.charCode!=101)" min="1" />
+
+                                    </div>
+
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Cash-To-Master (CTM) :
+                                        </label>
+                                        <input type="number" id="txctm" value="" placeholder="Cash-To-Master (CTM)" class="form-control form-control-sm fs-7 text-dark" oninput="if(this.value<0) this.value=0 ;" onkeypress="return (event.charCode!=45 && event.charCode!=69 && event.charCode!=101)" min="0" />
+
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                            </div>
+                            <!--end::Row 4-->
+                            <!--begin::Row 5-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            From Location :
+                                        </label>
+                                        <input type="text" id="txtfromloc" value="" placeholder="From Location" class="form-control form-control-sm fs-7 text-dark" />
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            To Location :
+                                        </label>
+                                        <input type="text" id="txttoloc" value="" placeholder="To Location" class="form-control form-control-sm fs-7 text-dark" />
+
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Planned Delivery Start  :
+                                        </label>
+                                        <input type="text" id="dtplannedstartdate" value="" placeholder="Planned Delivery Start" class="form-control dateField form-control-sm fs-7 text-dark" />
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                            </div>
+                            <!--end::Row 5-->
+                            <!--begin::Row 6-->
+                            <div class="fv-row">
+                                <div class="row form-group mb-7">
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Planned Delivery End :
+                                        </label>
+                                        <input type="text" id="dtplannedenddate" value="" placeholder="Planned Delivery End" class="form-control dateField form-control-sm fs-7 text-dark" />
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Actual Delivery Start:
+                                        </label>
+                                        <input type="text" id="dtactualdeliverystart" value="" placeholder="Actual Delivery Start" class="form-control dateField form-control-sm fs-7 text-dark" />
+
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <label class="form-label text-dark fw-bolder fs-8">
+                                            Actual Delivery End:
+                                        </label>
+                                        <input type="text" id="dtactualdeliveryend" value="" placeholder="Actual Delivery End" class="form-control dateField form-control-sm fs-7 text-dark" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Row 6-->
+                        </div>
+                    </div>
+                </div>
+
+                <!--begin::tab panel 3-->
+                <div class="tab-pane fade" id="kt_tab_pane_3" role="tabpanel">
+                    <div class="row gy-5 g-xl-12">
+                        <div class="col-xl-12 border-gray-500">
+                            <!--begin::Row 1-->
+                            <div class="fv-row">
+                                <div class="table-responsive mt-1">
+                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+                                        <!--begin::Table-->
+                                        <div class="d-flex align-items-center mt-2 mb-4">
+                                            <div class="me-2 col-md-12">
+                                                <div class="d-flex col-md-12">
+                                                    <label class="form-label fw-bolder text-dark fs-8 col-md-2 mt-2">Total Records : <span id="deliveryordersCount">@* addyourcount here *@</span></label>
+                                                    <div class="ModuleAccess d-flex justify-content-end col-md-10" data-module="1" data-access_level="2,3">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <table id="tblDeliveryorders" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                                            <thead>
+                                                <tr class="fw-bolder text-muted bg-light">
+                                                    
+                                                    <th>Delivery Order No</th>
+                                                    <th>Order No</th>
+                                                    <th>Internal Dept Code</th>
+                                                    <th>Customer Dept.</th>
+                                                    <th>DO status</th>
+                                                    <th>Sales Person Code</th>
+                                                    <th>DO Attachment</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::tab panel 3-->
+
+            </div>
+        </div>
+        <!--end::Card Body-->
+    </div>
+
+</div>
+
+@section Modals {
+
+    <div class="modal fade align-content-center" data-backdrop="static" data-keyboard="false" aria-hidden="true" tabindex="-1" id="modalAttachment">
+        <div class="modal-dialog " role="document" style="max-width: 600px !important">
+            <div class="modal-content">
+                <div class="modal-header bg-light-primary justify-content-center">
+                    <h5 class="modal-title" style="color:blue;margin:0px;">
+                        Download Attachments
+                    </h5>
+
+                </div>
+                <input id="itemkey" value="-1" class="hide" />
+                <div class="modal-body p-5 ">
+
+                    <div class="row col-md-12 mt-2 itemupdate justify-content-center">
+
+                        <div class="col-md-12 mb-3 mt-2">
+
+                            <table id="tblshipmentDODocuments" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3 ">
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light">
+                                        <th></th>
+                                        <th>No.</th>
+                                        <th>Attachments</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Cancel</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

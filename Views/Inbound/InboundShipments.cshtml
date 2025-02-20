@@ -1,0 +1,192 @@
+﻿@{
+    ViewData["Title"] = "Inbound Shipment List";
+    Layout = "~/Views/Shared/_BaseMasterList.cshtml";
+}
+@section tableheader {
+    <th></th>
+    <th>Shipment No.</th>
+    <th>Status</th>
+    <th>Transaction Date</th>
+    <th>Party </th>   
+    <th>Job No.</th>
+    <th>PO No.</th>
+    <th>Vessel Name</th>
+    <th>Remarks</th>
+   
+}
+@section tablebody {
+
+
+}
+
+@section AdditionalActions {
+
+
+    @* <button id="btnPrintInBound" class="btn btn-sm btn-primary ModuleAccess" data-module="9" data-access_level="3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+        <i class="bi bi-printer fs-3 me-2"></i> Export List
+    </button> *@
+   
+
+
+}
+
+@section QuickFilter {
+    <div class="dropdown">
+       @*  <button id="dropdownMenuButton" class="btn btn-sm btn-secondary dropdown-toggle ModuleAccess" data-module="1,2" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            Quick Filter
+        </button> *@
+        @* <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <!-- Inline CSS added here -->
+            <li><button class="dropdown-item" id="btnTodayDelivery" type="button">Today's Delivery</button></li>
+            <li><button class="dropdown-item" id="btn3DaysDelivery" type="button">Next 3 Days Delivery</button></li>
+            <li><button class="dropdown-item" id="btnReadyToShip" type="button">Ready to Ship</button></li>
+            <li><button class="dropdown-item" id="btnDraftShipment" type="button">Draft Shipment Order</button></li>
+        </ul> *@
+    </div>
+}
+
+@section filtertitle
+{
+    <input id="ShipmentNotags" class="form-control tagify" />
+    <input id="CustomerCodetags" class="form-control tagify" />
+    <input id="Customertags" class="form-control tagify" />
+    <input id="TransportTypetags" class="form-control tagify" />
+    <input id="Statustags" class="form-control tagify" />
+    <input id="JobNotags" class="form-control tagify" />
+    <input id="Vesseltags" class="form-control tagify" />
+    <input id="Viewastags" class="form-control tagify" />
+    <input id="fromdatetags" class="form-control tagify" />
+    <input id="todatetags" class="form-control tagify" />
+} 
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script> *@
+
+
+@section filterAccbody {
+    <div class="row">
+
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">Shipment No :</label>
+
+            <div>
+                <input id="txtShipmentNo" type="text" placeholder="Shipment No." class="form-control form-control-sm">
+            </div>
+
+        </div>
+
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">Party :</label>
+
+            <select name="selcustomer" id="selcustomer" data-placeholder="Select Party" data-control="select2" class="form-select fs-7" tabindex="-1">
+                <option></option>
+
+            </select>
+
+        </div>
+
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">PO No :</label>
+
+            <div>
+                <input id="txtPONo" type="text" placeholder="PO No." class="form-control form-control-sm">
+            </div>
+
+        </div>
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">Status :</label>
+
+            <div>
+                <select name="selStatus" id="selStatus" data-placeholder="Select Status" data-control="select2" class="form-select fs-7" tabindex="-1">
+                    <option></option>
+
+                </select>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+
+
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">Job No :</label>
+
+            <div>
+                <input id="txtJobNo" type="text" placeholder="Job Order No" class="form-control form-control-sm">
+            </div>
+
+        </div>
+
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">Vessel Name :</label>
+
+            <div>
+                <input id="txtVessel" type="text" placeholder="Vessel Name" class="form-control form-control-sm">
+            </div>
+
+        </div>
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">From Date :</label>
+
+            <div>
+                <input type="text" id="fromDate" value="" placeholder="From Date" class="form-control dateField form-control-sm fs-7 text-dark" />
+            </div>
+
+        </div>
+        <div class="mb-2 col-md-3">
+
+            <label class="form-label fw-bolder text-gray-700 fs-7">To Date :</label>
+
+            <div>
+                <input type="text" id="toDate" value="" placeholder="To Date" class="form-control dateField form-control-sm fs-7 text-dark" />
+            </div>
+
+        </div>
+    </div>
+}
+ 
+@section scripts {
+    <style>
+        .well {
+            position: relative;
+            overflow: hidden;
+        }
+
+        fieldset {
+            display: block;
+            margin: 0 10px;
+            float: left;
+        }
+
+        .dropdown-menu {
+            padding: 0.5rem 0;
+            min-width: auto;
+        }
+
+        .dropdown-item {
+            padding: 0.5rem 1rem;
+        }
+
+            .dropdown-item + .dropdown-item {
+                margin-top: 0.25rem;
+            }
+    </style>
+    <script src="~/assets/js/custom/Inbound/InboundShipmentList.js?123"></script>
+    @{
+        string Print_Key = ViewData["Print_Key"] as string;
+
+    }
+
+    <script>
+        var Print_Key = '@Print_Key';
+    </script>
+}
+

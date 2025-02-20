@@ -1,0 +1,264 @@
+﻿@model Logistic_Management_Lib.Companyinfodata
+
+@{
+    ViewData["Title"] = "Company Details";
+    Layout = "~/Views/Shared/_BaseMasterDetail.cshtml";
+}
+
+@section scripts {
+    <script type="module" src="~/assets/js/custom/UserAdministration/CompanyDetails.js"></script>
+    <script>
+        var Model = @Html.Raw(Json.Serialize(Model));
+    </script>
+    <script>
+        window.addressId = '@ViewBag.AddressId';
+        window.userId = '@ViewBag.userID';
+        var companyInfo = @Html.Raw(ViewBag.CompanyInfo);
+    </script>
+}
+
+@section ActionList
+{
+    <button class="btn btn-sm btn-success ModuleAccess" data-module="7" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="saveButton">
+        <i class="fas fa-pen fs-3 me-2"></i> Save
+    </button>
+    <button class="btn btn-sm btn-danger" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" onclick="NavigatePage('/UserAdministration/CompanyList')">
+        <i class="fas fa-window-close fs-3 me-2"></i> Back
+    </button>
+}
+
+<div class="post d-flex flex-column-fluid" id="kt_post">
+    <!--begin::Container-->
+    <div id="kt_content_container" class="container-fluid mb-lg-0 mb-md-0 mb-13" style="padding: 0 15px;">
+        <div class="row g-2 g-xl-5 h-100 px-5">
+            <div class="tab-content h-100">
+                <!--begin::Tab pane-->
+                <div class="tab-pane show active" id="general_info" role="tab-panel">
+                    <div class="card">
+                        <div class="card-body px-0 pb-0">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4">
+                                    <!--begin::Image-->
+                                    <div class="card card-flush mb-5 mb-xl-5" id="divLogo">
+                                        <div class="card-body text-center px-5">
+                                            <!--begin::Image input for Main Logo-->
+                                            <div class="mb-4">
+                                                <label for="imgLogo" class="d-block fw-bold fs-5" style="margin-bottom: 8px;">Primary Logo</label>
+                                                <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true" id="imgLogo">
+                                                    <div class="image-input-wrapper w-250px h-250px" style="background-size:contain; background-position:center; background-image: url('')"></div>
+                                                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change Main Logo">
+                                                        <i class="bi bi-pencil-fill fs-8"></i>
+                                                        <input type="file" name="avatar" accept=".png, .jpg, .jpeg, .bmp, .gif" id="imgLogoInput">
+                                                        <input type="hidden" name="avatar_remove">
+                                                    </label>
+                                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel Main Logo">
+                                                        <i class="bi bi-x fs-2"></i>
+                                                    </span>
+                                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove Main Logo">
+                                                        <i class="bi bi-x fs-2"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--end::Image input for Main Logo-->
+                                            <!--begin::Image input for Print Logo-->
+                                            <div class="mb-4">
+                                                <label for="imgPrintLogo" class="d-block fw-bold fs-5" style="margin-bottom: 8px;">Letterhead Logo</label>
+                                                <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true" id="imgPrintLogo">
+                                                    <div class="image-input-wrapper w-250px h-250px" style="background-size:contain; background-position:center; background-image: url('')"></div>
+                                                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change Print Logo">
+                                                        <i class="bi bi-pencil-fill fs-8"></i>
+                                                        <input type="file" name="printlogo" accept=".png, .jpg, .jpeg, .bmp, .gif" id="imgPrintLogoInput">
+                                                        <input type="hidden" name="printlogo_remove">
+                                                    </label>
+                                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel Print Logo">
+                                                        <i class="bi bi-x fs-2"></i>
+                                                    </span>
+                                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove Print Logo">
+                                                        <i class="bi bi-x fs-2"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--end::Image input for Print Logo-->
+                                            <!--begin::Image input for Favicon-->
+                                            <div class="mb-4">
+                                                <label for="imgFavicon" class="d-block fw-bold fs-5" style="margin-bottom: 8px;">Site Icon</label>
+                                                <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true" id="imgFavicon">
+                                                    <div class="image-input-wrapper w-100px h-100px" style="background-size:contain; background-position:center; background-image: url('')"></div>
+                                                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change Favicon" style="margin-top:10px;">
+                                                        <i class="bi bi-pencil-fill fs-8"></i>
+                                                        <input type="file" name="favicon" accept=".png, .ico" id="imgFaviconInput">
+                                                        <input type="hidden" name="favicon_remove">
+                                                    </label>
+                                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel Favicon">
+                                                        <i class="bi bi-x fs-2"></i>
+                                                    </span>
+                                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove Favicon">
+                                                        <i class="bi bi-x fs-2"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!--end::Image input for Favicon-->
+                                            <!--begin::Description-->
+                                            <div class="text-muted fs-7 mt-5 mx-10">
+                                                Set the company logo, favicon, and print logo. Only *.png, *.svg, *.jpg, *.jpeg, *.bmp, *.gif, and *.ico image files are accepted.
+                                            </div>
+                                            <!--end::Description-->
+                                        </div>
+                                    </div>
+                                    <!--end::Image-->
+                                    <div class="separator bg-light mt-10 mb-5 mx-5"></div>
+                                </div>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 border border-end-0 border-top-0 border-bottom-0">
+                                    <!--begin::General info-->
+                                    <div class="card card-flush py-4" id="divCompanyInfo">
+                                        <div class="card-body pt-0">
+                                            <div class="row d-flex justify-content-center">
+                                                <div class="col-xl-12">
+                                                    <div class="mb-10 fv-row fv-plugins-icon-container row">
+                                                        <div class="col-12 col-xl-6">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label text-dark fw-bolder fs-8 required">Address Type</label>
+                                                            <!--end::Label-->
+                                                            <!--begin::Input-->
+                                                            <input type="text" id="txtAddressType" class="form-control form-control-sm fs-7 text-dark" maxlength="10" disabled>
+                                                            <!--end::Input-->
+                                                        </div>
+                                                        <div class="col-12 col-xl-6">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label text-dark fw-bolder fs-8 required ">Company Address</label>
+                                                            <!--end::Label-->
+                                                            <!--begin::Dropdown-->
+                                                            <select id="ddlCompanyAddress" class="form-select form-select-sm fs-7 text-dark">
+                                                                
+                                                            </select>
+                                                            <!--end::Dropdown-->
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="separator bg-light my-10"></div>
+                                                    <div class="mb-10 fv-row fv-plugins-icon-container" style="display:none;">
+                                                        <!--begin::Label-->
+                                                        <label class="form-label text-dark fw-bolder fs-8 required">Company Name</label>
+                                                        <!--end::Label-->
+                                                        <!--begin::Input-->
+                                                        <input type="number" id="txtCompanyid" class="form-control form-control-sm fs-7 text-dark" maxlength="200" data-id="100001" />
+                                                        <!--end::Input-->
+                                                    </div>
+                                                    <div class="mb-10 fv-row fv-plugins-icon-container row">
+                                                        <div class="col-12 col-xl-6">
+                                                        <!--begin::Label-->
+                                                        <label class="form-label text-dark fw-bolder fs-8 required">Company Code</label>
+                                                        <!--end::Label-->
+                                                        <!--begin::Input-->
+                                                        <input type="text" id="txtCompCode" class="form-control form-control-sm fs-7 text-dark" maxlength="200" data-id="100001"/>
+                                                        <!--end::Input-->
+                                                        </div>
+                                                        <div class="col-12 col-xl-6">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label text-dark fw-bolder fs-8 required">Company Description</label>
+                                                            <!--end::Label-->
+                                                            <!--begin::Input-->
+                                                            <input type="text" id="txtCompDesc" class="form-control form-control-sm fs-7 text-dark" maxlength="200" data-id="100001" />
+                                                            <!--end::Input-->
+                                                        </div>
+                                                    </div>
+                                                   
+                                                    <div class="mb-10 fv-row fv-plugins-icon-container">
+                                                        <!--begin::Label-->
+                                                        <label class="form-label text-dark fw-bolder fs-8 required">Address</label>
+                                                        <!--end::Label-->
+                                                        <!--begin::Input-->
+                                                        <textarea type="text" id="txtAddress" class="form-control form-control-sm fs-7 text-dark" disabled></textarea>
+                                                        <!--end::Input-->
+                                                    </div>
+                                                    <div class="mb-10 fv-row fv-plugins-icon-container" style="display:none;">
+                                                        <!--begin::Label-->
+                                                        <label class="form-label text-dark fw-bolder fs-8 required">Address</label>
+                                                        <!--end::Label-->
+                                                        <!--begin::Input-->
+                                                        <textarea type="number" id="txtAddressid" class="form-control form-control-sm fs-7 text-dark" disabled></textarea>
+                                                        <!--end::Input-->
+                                                    </div>
+                                                    <div class="mb-10 fv-row fv-plugins-icon-container row">
+                                                        <div class="col-12 col-xl-6">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label text-dark fw-bolder fs-8 required">Postal Code</label>
+                                                            <!--end::Label-->
+                                                            <!--begin::Input-->
+                                                            <input type="text" id="txtPostalCode" class="form-control form-control-sm fs-7 text-dark" maxlength="10" disabled>
+                                                            <!--end::Input-->
+                                                        </div>
+                                                        <div class="col-12 col-xl-6">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label text-dark fw-bolder fs-8 required">Country</label>
+                                                            <!--end::Label-->
+                                                            <!--begin::Input-->
+                                                            <input type="text" id="txtCountry" class="form-control form-control-sm fs-7 text-dark" maxlength="100" disabled>
+                                                            <!--end::Input-->
+                                                        </div>
+                                                    </div>
+                                                    <div class="separator bg-light my-10"></div>
+                                                    <div class="mb-10 fv-row fv-plugins-icon-container row">
+                                                        <div class="col-12 col-xl-12">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label text-dark fw-bolder fs-8 required">Contact Person</label>
+                                                            <!--end::Label-->
+                                                            <!--begin::Input-->
+                                                            <input type="text" id="txtContactPerson" class="form-control form-control-sm fs-7 text-dark" maxlength="100" disabled>
+                                                            <!--end::Input-->
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-10 fv-row fv-plugins-icon-container row">
+                                                        <div class="col-12 col-xl-6 mb-10">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label text-dark fw-bolder fs-8 required">Phone</label>
+                                                            <!--end::Label-->
+                                                            <!--begin::Input-->
+                                                            <input type="text" id="txtPhone" class="form-control form-control-sm fs-7 text-dark" maxlength="100" disabled>
+                                                            <!--end::Input-->
+                                                        </div>
+                                                        <div class="col-12 col-xl-6 mb-10">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label text-dark fw-bolder fs-8 required">Mobile</label>
+                                                            <!--end::Label-->
+                                                            <!--begin::Input-->
+                                                            <input type="text" id="txtMobile" class="form-control form-control-sm fs-7 text-dark" maxlength="100" disabled>
+                                                            <!--end::Input-->
+                                                        </div>
+                                                        <div class="col-12 col-xl-6 mb-10">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label text-dark fw-bolder fs-8 required">Email</label>
+                                                            <!--end::Label-->
+                                                            <!--begin::Input-->
+                                                            <input type="text" id="txtEmail" class="form-control form-control-sm fs-7 text-dark" maxlength="100" disabled>
+                                                            <!--end::Input-->
+                                                        </div>
+                                                        <div class="col-12 col-xl-6 mb-10">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label text-dark fw-bolder fs-8 required">Fax</label>
+                                                            <!--end::Label-->
+                                                            <!--begin::Input-->
+                                                            <input type="text" id="txtFax" class="form-control form-control-sm fs-7 text-dark" maxlength="100" disabled>
+                                                            <!--end::Input-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                    <!--end::General info-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Tab pane-->
+            </div>
+        </div>
+    </div>
+    <!--end::Container-->
+</div>
+
+

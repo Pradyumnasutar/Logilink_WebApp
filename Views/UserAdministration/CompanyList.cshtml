@@ -1,0 +1,123 @@
+﻿@{
+    ViewData["Title"] = "Company List";
+    Layout = "~/Views/Shared/_BaseMasterList.cshtml";
+}
+
+@section AdditionalActions {
+    <button id="btnAddnew" class="btn btn-sm btn-success ModuleAccess" data-module="7" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" onclick="AddNew(this)">
+        <i class="bi la-cart-plus fs-3 me-2"></i> Add New Company
+    </button>
+}
+@section scripts {
+    <script src="~/assets/js/custom/UserAdministration/CompanyList.js"></script>
+    <script>
+        window.addressId = '@ViewBag.AddressId';
+    </script>
+}
+@section tableheader {
+    <th style="display:none;"></th>
+    <th class="min-w-40px text-gray-700 px-3" style="width:40%">Company</th>
+    <th class="min-w-40px text-gray-700" style="width:15%">Type</th>
+    <th class="min-w-40px text-gray-700" style="width:15%">Country</th>
+}
+
+@section tablebody {
+    
+}
+
+@section Modals {
+    <!-- Modal -->
+    <div class="modal fade" id="addCompanyModal" tabindex="-1" aria-labelledby="addCompanyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-light-primary justify-content-center">
+                    <div class="modal-title" id="addCompanyModalLabel" style="
+    font-weight: 600;
+    font-size: 1.2rem;
+    ">
+                        Add New Company
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid px-0">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card card-flush py-4">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <!-- Address Type -->
+                                            <div class="col-12 col-xl-6 mb-3">
+                                                <label class="form-label text-dark fw-bolder fs-8 required">Address Type</label>
+                                                <input type="text" id="txtAddressType" class="form-control form-control-sm fs-7 text-dark" maxlength="10" disabled>
+                                            </div>
+
+                                            <!-- Company Address Dropdown -->
+                                            <div class="col-12 col-xl-6 mb-3">
+                                                <label class="form-label text-dark fw-bolder fs-8 required">Company Address</label>
+                                                <select id="ddlCompanyAddress" class="form-select form-select-sm fs-7 text-dark"></select>
+                                            </div>
+
+                                            <!-- Company Code and Description -->
+                                            <div class="col-12 col-xl-6 mb-3">
+                                                <label class="form-label text-dark fw-bolder fs-8 required">Company Code</label>
+                                                <input type="text" id="txtCompCode" class="form-control form-control-sm fs-7 text-dark" maxlength="200" />
+                                            </div>
+                                            <div class="col-12 col-xl-6 mb-3">
+                                                <label class="form-label text-dark fw-bolder fs-8 required">Company Description</label>
+                                                <input type="text" id="txtCompDesc" class="form-control form-control-sm fs-7 text-dark" maxlength="200" />
+                                            </div>
+
+                                            <!-- Address -->
+                                            <div class="col-12 mb-3">
+                                                <label class="form-label text-dark fw-bolder fs-8 required">Address</label>
+                                                <textarea id="txtAddress" class="form-control form-control-sm fs-7 text-dark" disabled></textarea>
+                                            </div>
+
+                                            <!-- Additional Fields -->
+                                            <div class="col-12 col-xl-6 mb-3">
+                                                <label class="form-label text-dark fw-bolder fs-8 required">Postal Code</label>
+                                                <input type="text" id="txtPostalCode" class="form-control form-control-sm fs-7 text-dark" maxlength="10" disabled>
+                                            </div>
+                                            <div class="col-12 col-xl-6 mb-3">
+                                                <label class="form-label text-dark fw-bolder fs-8 required">Country</label>
+                                                <input type="text" id="txtCountry" class="form-control form-control-sm fs-7 text-dark" maxlength="100" disabled>
+                                            </div>
+
+                                            <!-- Contact Information -->
+                                            <div class="col-12 mb-3">
+                                                <label class="form-label text-dark fw-bolder fs-8 required">Contact Person</label>
+                                                <input type="text" id="txtContactPerson" class="form-control form-control-sm fs-7 text-dark" maxlength="100" disabled>
+                                            </div>
+                                            <div class="col-12 col-xl-6 mb-3">
+                                                <label class="form-label text-dark fw-bolder fs-8 required">Phone</label>
+                                                <input type="text" id="txtPhone" class="form-control form-control-sm fs-7 text-dark" maxlength="100" disabled>
+                                            </div>
+                                            <div class="col-12 col-xl-6 mb-3">
+                                                <label class="form-label text-dark fw-bolder fs-8 required">Mobile</label>
+                                                <input type="text" id="txtMobile" class="form-control form-control-sm fs-7 text-dark" maxlength="100" disabled>
+                                            </div>
+                                            <div class="col-12 col-xl-6 mb-3">
+                                                <label class="form-label text-dark fw-bolder fs-8 required">Email</label>
+                                                <input type="text" id="txtEmail" class="form-control form-control-sm fs-7 text-dark" maxlength="100" disabled>
+                                            </div>
+                                            <div class="col-12 col-xl-6 mb-3">
+                                                <label class="form-label text-dark fw-bolder fs-8 required">Fax</label>
+                                                <input type="text" id="txtFax" class="form-control form-control-sm fs-7 text-dark" maxlength="100" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnSaveChanges">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

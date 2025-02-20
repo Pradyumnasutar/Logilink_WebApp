@@ -1,0 +1,619 @@
+﻿@using LeS_LogiLink_WebApp.Models
+@using Microsoft.AspNetCore.Http;
+@inject IUserDefaultData UserData
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LogiLink</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Lighthouse eSolutions" />
+    <meta name="keywords" content="LeS, Logistics Management,Logistics,Management" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="img-src 'self' data:;">
+
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="article" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="LogiLink" />
+    <meta property="og:site_name" content="LogiLink" />
+
+    <link rel="shortcut icon" id="shorticon" href="#" />
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <!--end::Fonts-->
+    <link href="~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" />
+    <link href="~/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" />
+    <link href="~/assets/plugins/custom/datatables/fixedHeader.dataTables.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/plugins/global/plugins.bundle_icons.css" rel="stylesheet" />
+    <link href="~/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/bootstrap-tagsinput.css" rel="stylesheet" />
+    <link href="~/assets/css/Common.css" rel="stylesheet" />
+    
+
+</head>
+<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed" style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+    <!--data-kt-aside-minimize="on"-->
+    <div class="d-flex flex-column flex-root" id="main-content">
+        <div class="page d-flex flex-row flex-column-fluid">
+            <!--begin::Aside-->
+            <div id="kt_aside" class="aside aside-dark aside-hoverable" data-kt-drawer="true"  data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_mobile_toggle">
+                <!--begin::Brand-->
+                <div class="aside-logo flex-column-auto" id="kt_aside_logo">
+                    <!--begin::Logo-->
+                    @* <a onclick="NavigatePage('/Home/Index')">
+                        <img alt="Logo" src="~/assets/media/logos/@HttpContextAccessor.HttpContext.Session.GetString("LOGOPATH")" class="h-40px logo" />
+
+                    </a> *@
+                  
+                    <h2 class="logo" style="color:white;text-align: justify;">LogiLink</h2>
+                    @* <img alt="Logo" src="~/assets/media/logos/SystemLogo.png" class="logo" style="height: 30%;" /> *@
+
+                    <!--end::Logo-->
+                    <!--begin::Aside toggler-->
+                    <div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle" data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body" data-kt-toggle-name="aside-minimize">
+                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr079.svg-->
+                        <span class="svg-icon svg-icon-1 rotate-180">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" onclick="setToggle()">
+                                <path opacity="0.5" d="M14.2657 11.4343L18.45 7.25C18.8642 6.83579 18.8642 6.16421 18.45 5.75C18.0358 5.33579 17.3642 5.33579 16.95 5.75L11.4071 11.2929C11.0166 11.6834 11.0166 12.3166 11.4071 12.7071L16.95 18.25C17.3642 18.6642 18.0358 18.6642 18.45 18.25C18.8642 17.8358 18.8642 17.1642 18.45 16.75L14.2657 12.5657C13.9533 12.2533 13.9533 11.7467 14.2657 11.4343Z" fill="currentColor" />
+                                <path d="M8.2657 11.4343L12.45 7.25C12.8642 6.83579 12.8642 6.16421 12.45 5.75C12.0358 5.33579 11.3642 5.33579 10.95 5.75L5.40712 11.2929C5.01659 11.6834 5.01659 12.3166 5.40712 12.7071L10.95 18.25C11.3642 18.6642 12.0358 18.6642 12.45 18.25C12.8642 17.8358 12.8642 17.1642 12.45 16.75L8.2657 12.5657C7.95328 12.2533 7.95328 11.7467 8.2657 11.4343Z" fill="currentColor" />
+                            </svg>
+                        </span>
+                        <!--end::Svg Icon-->
+                    </div>
+                    <!--end::Aside toggler-->
+                </div>
+                <!--end::Brand-->
+               
+                <!--begin::Aside menu-->
+                <div class="aside-menu flex-column-fluid">
+                    <!--begin::Aside Menu-->
+                    <div class="hover-scroll-overlay-y my-5 my-lg-5" id="kt_aside_menu_wrapper" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer" data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="0">
+                        <!--begin::Menu-->
+                        <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#kt_aside_menu" data-kt-menu="true" data-kt-menu-expand="false">
+
+                            <div data-kt-menu-trigger="click" id="nav_InboundShipments" data-module="13" data-access_level="1,2,3" style="" class="menu-item menu-accordion ModuleAccess" onclick="NavigatePage('/Inbound/InboundShipments')">
+                                <span class="menu-link">
+                                    <span class="menu-icon">
+
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="icon-1x text-dark-50 flaticon-truck" style="transform: scaleX(-1);
+    display: inline-block; "></i>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Inbound Shipments</span>
+                                </span>
+                            </div>
+                            <div data-kt-menu-trigger="click" id="nav_OutboundShipments" data-module="1" data-access_level="1,2,3" style="" class="menu-item menu-accordion ModuleAccess" onclick="NavigatePage('/Outbound/OutboundShipmentsList')">
+                                <span class="menu-link">
+                                    <span class="menu-icon">
+                                        
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="icon-1x text-dark-50 flaticon-truck"></i>
+                                        </span> 
+                                    </span>
+                                    <span class="menu-title">Outbound Shipments</span>
+                                </span>
+                            </div>
+                            <div data-kt-menu-trigger="click" id="nav_deliveryOrders" data-module="2" data-access_level="1,2,3" style="" class="menu-item menu-accordion ModuleAccess" onclick="NavigatePage('/Orders/DeliveryOrderList')">
+                                <span class="menu-link">
+                                    <span class="menu-icon">
+                                       
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect x="0" y="0" width="24" height="24" />
+                                                    <path d="M18.1446364,11.84388 L17.4471627,16.0287218 C17.4463569,16.0335568 17.4455155,16.0383857 17.4446387,16.0432083 C17.345843,16.5865846 16.8252597,16.9469884 16.2818833,16.8481927 L4.91303792,14.7811299 C4.53842737,14.7130189 4.23500006,14.4380834 4.13039941,14.0719812 L2.30560137,7.68518803 C2.28007524,7.59584656 2.26712532,7.50338343 2.26712532,7.4104669 C2.26712532,6.85818215 2.71484057,6.4104669 3.26712532,6.4104669 L16.9929851,6.4104669 L17.606173,3.78251876 C17.7307772,3.24850086 18.2068633,2.87071314 18.7552257,2.87071314 L20.8200821,2.87071314 C21.4717328,2.87071314 22,3.39898039 22,4.05063106 C22,4.70228173 21.4717328,5.23054898 20.8200821,5.23054898 L19.6915238,5.23054898 L18.1446364,11.84388 Z" fill="currentColor" opacity="0.3" />
+                                                    <path d="M6.5,21 C5.67157288,21 5,20.3284271 5,19.5 C5,18.6715729 5.67157288,18 6.5,18 C7.32842712,18 8,18.6715729 8,19.5 C8,20.3284271 7.32842712,21 6.5,21 Z M15.5,21 C14.6715729,21 14,20.3284271 14,19.5 C14,18.6715729 14.6715729,18 15.5,18 C16.3284271,18 17,18.6715729 17,19.5 C17,20.3284271 16.3284271,21 15.5,21 Z" fill="currentColor" />
+                                                </g>
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-title">Delivery Orders</span>
+                                </span>
+                            </div>    
+                            <div data-kt-menu-trigger="click" id="nav_EPOD" data-module="3" data-access_level="1,2,3" class="menu-item menu-accordion ModuleAccess" onclick="NavigatePage('/EPOD/Epodlist')" style="">
+                                <span class="menu-link">
+                                    <span class="menu-icon">
+                                       
+                                        <span class="svg-icon svg-icon-2">
+                                           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24"></rect>
+                                                <circle fill="currentColor" opacity="0.3" cx="12" cy="12" r="9"></circle>
+                                                <path d="M11.7357634,20.9961946 C6.88740052,20.8563914 3,16.8821712 3,12 C3,11.9168367 3.00112797,11.8339369 3.00336944,11.751315 C3.66233009,11.8143341 4.85636818,11.9573854 4.91262842,12.4204038 C4.9904938,13.0609191 4.91262842,13.8615942 5.45804656,14.101772 C6.00346469,14.3419498 6.15931561,13.1409372 6.6267482,13.4612567 C7.09418079,13.7815761 8.34086797,14.0899175 8.34086797,14.6562185 C8.34086797,15.222396 8.10715168,16.1034596 8.34086797,16.2636193 C8.57458427,16.423779 9.5089688,17.54465 9.50920913,17.7048097 C9.50956962,17.8649694 9.83857487,18.6793513 9.74040201,18.9906563 C9.65905192,19.2487394 9.24857641,20.0501554 8.85059781,20.4145589 C9.75315358,20.7620621 10.7235846,20.9657742 11.7357634,20.9960544 L11.7357634,20.9961946 Z M8.28272988,3.80112099 C9.4158415,3.28656421 10.6744554,3 12,3 C15.5114513,3 18.5532143,5.01097452 20.0364482,7.94408274 C20.069657,8.72412177 20.0638332,9.39135321 20.2361262,9.6327358 C21.1131932,10.8600506 18.0995147,11.7043158 18.5573343,13.5605384 C18.7589671,14.3794892 16.5527814,14.1196773 16.0139722,14.886394 C15.4748026,15.6527403 14.1574598,15.137809 13.8520064,14.9904917 C13.546553,14.8431744 12.3766497,15.3341497 12.4789081,14.4995164 C12.5805657,13.664636 13.2922889,13.6156126 14.0555619,13.2719546 C14.8184743,12.928667 15.9189236,11.7871741 15.3781918,11.6380045 C12.8323064,10.9362407 11.963771,8.47852395 11.963771,8.47852395 C11.8110443,8.44901109 11.8493762,6.74109366 11.1883616,6.69207022 C10.5267462,6.64279981 10.170464,6.88841096 9.20435656,6.69207022 C8.23764828,6.49572949 8.44144409,5.85743687 8.2887174,4.48255778 C8.25453994,4.17415686 8.25619136,3.95717082 8.28272988,3.80112099 Z M20.9991771,11.8770357 C20.9997251,11.9179585 21,11.9589471 21,12 C21,16.9406923 17.0188468,20.9515364 12.0895088,20.9995641 C16.970233,20.9503326 20.9337111,16.888438 20.9991771,11.8770357 Z" fill="currentColor" opacity="0.3"></path>
+                                            </g>
+                                        </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-title">Electronic Proof Of Delivery </span>
+                                </span>
+                            </div>
+                           
+                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion" id="nav_masters" style="">
+                                <span class="menu-link">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor"></rect>
+                                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor"></rect>
+                                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor"></rect>
+                                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor"></rect>
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-title">Masters</span>
+                                    <span class="menu-arrow"></span>
+                                </span>
+                                <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    <div class="menu-item ModuleAccess" id="menuCustomercard" data-module="4" data-access_level="1,2,3" onclick="NavigatePage('/Masters/CustomerCard')">
+                                        <a class="menu-link py-3">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Customers Card</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item ModuleAccess" id="menuSuppliercard" data-module="12" data-access_level="1,2,3" onclick="NavigatePage('/Masters/SuppliersCard')">
+                                        <a class="menu-link py-3">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Suppliers Card</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="menu-item ModuleAccess" id="menuAnchorage" data-module="5" data-access_level="1,2,3" onclick="NavigatePage('/Masters/Anchorage')">
+                                        <a class="menu-link py-3">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Anchorage</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="menu-item ModuleAccess" id="menuGRRC" data-module="6" data-access_level="1,2,3" onclick="NavigatePage('/Masters/GoodsReturnReasonCode')">
+                                        <a class="menu-link py-3">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Goods Return Reason Code</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="menu-item ModuleAccess" id="menuTransportType" data-module="8" data-access_level="1,2,3" onclick="NavigatePage('/Masters/TransportType')">
+                                        <a class="menu-link py-3">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Transport Type</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="menu-item ModuleAccess" id="menuVessels" data-module="8" data-access_level="1,2,3" onclick="NavigatePage('/Masters/Vessels')">
+                                        <a class="menu-link py-3">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Vessels</span>
+                                        </a>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+
+                            <div data-kt-menu-trigger="click" id="nav_userAdmin" style="" class="menu-item menu-accordion ModuleAccess" data-module="7" data-access_level="1,2,3">
+                                <span class="menu-link">
+                                    <span class="menu-icon">
+                                        <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path opacity="0.3" d="M20.5543 4.37824L12.1798 2.02473C12.0626 1.99176 11.9376 1.99176 11.8203 2.02473L3.44572 4.37824C3.18118 4.45258 3 4.6807 3 4.93945V13.569C3 14.6914 3.48509 15.8404 4.4417 16.984C5.17231 17.8575 6.18314 18.7345 7.446 19.5909C9.56752 21.0295 11.6566 21.912 11.7445 21.9488C11.8258 21.9829 11.9129 22 12.0001 22C12.0872 22 12.1744 21.983 12.2557 21.9488C12.3435 21.912 14.4326 21.0295 16.5541 19.5909C17.8169 18.7345 18.8277 17.8575 19.5584 16.984C20.515 15.8404 21 14.6914 21 13.569V4.93945C21 4.6807 20.8189 4.45258 20.5543 4.37824Z" fill="currentColor"></path>
+                                                <path d="M14.854 11.321C14.7568 11.2282 14.6388 11.1818 14.4998 11.1818H14.3333V10.2272C14.3333 9.61741 14.1041 9.09378 13.6458 8.65628C13.1875 8.21876 12.639 8 12 8C11.361 8 10.8124 8.21876 10.3541 8.65626C9.89574 9.09378 9.66663 9.61739 9.66663 10.2272V11.1818H9.49999C9.36115 11.1818 9.24306 11.2282 9.14583 11.321C9.0486 11.4138 9 11.5265 9 11.6591V14.5227C9 14.6553 9.04862 14.768 9.14583 14.8609C9.24306 14.9536 9.36115 15 9.49999 15H14.5C14.6389 15 14.7569 14.9536 14.8542 14.8609C14.9513 14.768 15 14.6553 15 14.5227V11.6591C15.0001 11.5265 14.9513 11.4138 14.854 11.321ZM13.3333 11.1818H10.6666V10.2272C10.6666 9.87594 10.7969 9.57597 11.0573 9.32743C11.3177 9.07886 11.6319 8.9546 12 8.9546C12.3681 8.9546 12.6823 9.07884 12.9427 9.32743C13.2031 9.57595 13.3333 9.87594 13.3333 10.2272V11.1818Z" fill="currentColor"></path>
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-title">User Administration</span>
+                                    <span class="menu-arrow"></span>
+                                </span>
+                              <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    <div class="menu-item ModuleAccess" id="menuUser" data-module="7" data-access_level="1,2,3" onclick="NavigatePage('/UserAdministration/UsersList')">
+                                        <a class="menu-link py-3">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Users</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item ModuleAccess" id="menuCompany" data-module="7" data-access_level="1,2,3" onclick="NavigatePage('/UserAdministration/CompanyList')">
+                                        <a class="menu-link py-3">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Companies</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item ModuleAccess" id="menuuserroles" data-module="7" data-access_level="1,2,3" onclick="NavigatePage('/UserAdministration/UserRoles')">
+                                        <a class="menu-link py-3">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">User Roles & Permissions</span>
+                                        </a>
+                                    </div>
+
+                                 </div>
+                            </div>
+
+                            @* <div class="footers" id="minimizedFooter" style="position: fixed; top: 580px; left: -5px; margin-top: 300px;">
+                            </div>
+                           *@
+                        </div>
+                        <!--end::Menu-->
+
+                      
+
+
+
+                    </div>
+                   
+                    <!--end::Aside Menu-->
+                </div>
+                
+                <div class="aside-footer flex-column-auto pt-5 pb-7 px-5" style="border-right-style: solid; border-right-width: 0.5px; border-right-color: #eee;" id="kt_aside_footer">
+                    <div class="d-flex flex-column" style="margin-left:10px;">
+                       
+                        <div class="text-center">
+                            <div class="d-flex flex-column align-items-start mt-3 copyright">
+                                @{
+                                    var modale = UserData.company_detail_data.Where(x => x.CompanyId == UserData.companyid).FirstOrDefault();
+                                    if (modale.poweredby_flag == 1)
+                                    {
+                                        <!--begin::Logo-->
+                                        <a class="fs-lg-7 fs-md-7 fs-8" href="https://lesconnect.io/" target="_blank" style="color: white;">
+                                            Powered By <img alt="Logo" src="~/assets/media/logos/LeSConnectLogos_MainLogo.png" class="h-25px h-md-30px">
+                                        </a>
+                                        <!--end::Logo image-->
+                                    }
+                                    
+                                }
+                                
+                                <!--begin::Version-->
+                                <span class="fs-lg-7 fs-md-7 fs-8 fw-bold" style="color: white;">Version - @UserData.projectversion</span>
+                                <!--end::Version-->
+                            </div>
+                            <img class="copyright-company-logo h-25px h-md-40px" src="~/assets/media/logos/logo_LeS.png">
+                        </div>
+                    </div>
+                </div>
+               
+                <!--end::Aside menu-->
+            </div>
+            <!--end::Aside-->
+            <!--begin::Wrapper-->
+            <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper" style="display:none!important">
+                <!--begin::Header-->
+                <div id="kt_header" style="" class="header align-items-stretch">
+                    <!--begin::Container-->
+                    <div class="container-fluid d-flex align-items-stretch justify-content-between">
+                        <!--begin::Aside mobile toggle-->
+                        <div class="d-flex align-items-center d-lg-none ms-n2 me-2 " title="Show aside menu">
+                            <div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" id="kt_aside_mobile_toggle">
+                                <!--begin::Svg Icon | path: icons/duotune/abstract/abs015.svg-->
+                                <span class="svg-icon svg-icon-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z" fill="currentColor" />
+                                        <path opacity="0.3" d="M21 14H3C2.4 14 2 13.6 2 13V11C2 10.4 2.4 10 3 10H21C21.6 10 22 10.4 22 11V13C22 13.6 21.6 14 21 14ZM22 20V18C22 17.4 21.6 17 21 17H3C2.4 17 2 17.4 2 18V20C2 20.6 2.4 21 3 21H21C21.6 21 22 20.6 22 20Z" fill="currentColor" />
+                                    </svg>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </div>
+                            
+                        </div>
+                        <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" style="align-content: center;">
+                            <a href="#" onclick="NavigatePage('/Home/Index')" class="" style="align-content: center;">
+                                <img id="companylogo" src="" class="h-40px logo" alt="" decoding="async" style="max-width:220px;" fetchpriority="high"  data-eio-rwidth="966" data-eio-rheight="150">
+                            </a>
+                        </div>
+                        <!--end::Aside mobile toggle-->
+                        <!--begin::Wrapper-->
+                        <div class="d-flex align-items-stretch justify-content-between">
+                            <!--begin::Navbar-->
+                            
+                            <!-- Original position of the Company select dropdown -->
+                            <div id="original-container">
+                                <div id="original-company-select" class="d-flex align-items-center ms-auto me-10">
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bolder text-gray-700 fs-7" style="margin: inherit;align-content: center;">Company :</label>
+                                    </div>
+                                    <div class="gy-5 g-xl-9" style="width:210px;">
+                                        <div class="mb-1 row form-group">
+                                            <div class="col-md-12">
+                                                <select id="ddlSelCompany" class="form-select form-select-sm fs-7" data-control="select2" data-allow-clear="false" data-hide-search="false" data-placeholder="Select Company...">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Toolbar wrapper -->
+                            <div class="d-flex align-items-stretch flex-shrink-0">
+                                <!-- User Name -->
+                                <div class="d-flex align-items-center ms-1 ms-lg-3">
+                                    <div class="fw-bolder d-flex align-items-center fs-6 text-gray-700 " id="iUserName">
+                                        @UserData.username
+                                    </div>
+                                </div>
+                                <!-- User menu -->
+                                <div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
+                                    <div class="cursor-pointer symbol symbol-30px symbol-md-30px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+                                        <img src="~/assets/media/avatars/UserUnknown.png" alt="user" />
+                                    </div>
+                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-350px" data-kt-menu="true">
+                                        <div class="menu-item px-3">
+                                            <div class="menu-content d-flex align-items-center px-3">
+                                                <div class="symbol symbol-50px me-5">
+                                                    <img alt="Logo" src="~/assets/media/avatars/userUnknown.png" />
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <div class="fw-bolder d-flex align-items-center fs-5" id="iloginuser">
+                                                        @UserData.username
+                                                        <span class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">Active</span>
+                                                    </div>
+                                                    <a href="#" class="fw-bold text-muted text-hover-primary fs-7" id="iUserEmail">
+                                                        @UserData.emailid
+                                                    </a>
+                                                    <a href="#" class="fw-bold text-muted text-hover-primary fs-7" id="iUserCompany">
+                                                        @UserData.currcompanydesc
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Placeholder for the responsive Company select dropdown -->
+                                        <div id="responsive-company-select" class="company-select-responsive"></div>
+
+                                        @* <div class="menu-item px-2">
+                                            <a class="menu-link px-5 rounded" onclick="ChangePassword()">Change Password</a>
+                                        </div> *@
+                                        <div class="separator my-2"></div>
+                                        <div class="menu-item px-5">
+                                            <a class="menu-link px-2" onclick="LogOut()">Sign Out</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Header menu toggle -->
+                                <div class="d-flex align-items-center d-lg-none ms-2 me-n3 hide" title="Show header menu">
+                                    <div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" id="kt_header_menu_mobile_toggle">
+                                        <span class="svg-icon svg-icon-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M13 11H3C2.4 11 2 10.6 2 10V9C2 8.4 2.4 8 3 8H13C13.6 8 14 8.4 14 9V10C14 10.6 13.6 11 13 11ZM22 5V4C22 3.4 21.6 3 21 3H3C2.4 3 2 3.4 2 4V5C2 5.6 2.4 6 3 6H21C21.6 6 22 5.6 22 5Z" fill="currentColor" />
+                                                <path opacity="0.3" d="M21 16H3C2.4 16 2 15.6 2 15V14C2 13.4 2.4 13 3 13H21C21.6 13 22 13.4 22 14V15C22 15.6 21.6 16 21 16ZM14 20V19C14 18.4 13.6 18 13 18H3C2.4 18 2 18.4 2 19V20C2 20.6 2.4 21 3 21H13C13.6 21 14 20.6 14 20Z" fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Wrapper-->
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--end::Header-->
+                <!--begin::Content-->
+                <div class="content d-flex flex-column flex-column-fluid pt-5 pb-0" id="kt_content">
+                    <!--begin::Toolbar-->
+                    <div class="toolbar" id="kt_toolbar">
+                        <!--begin::Container-->
+                        <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                            <!--begin::Page title-->
+                            <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                                <!--begin::Title-->
+                                <!--begin::Breadcrumb-->
+                                <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                                    <!--begin::Item-->
+                                    <li class="breadcrumb-item text-primary fw-bolder">
+                                        <a href="~/Home/Index" class="text-primary">Home</a>
+                                    </li>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    @if (ViewBag.SubTitle != null && ViewBag.SubTitle != "")
+                                    {
+                                        <li class="breadcrumb-item text-dark fw-bolder" id="breadcrumbsubtitle">
+                                            <span class="bullet bg-gray-300 w-5px h-2px" style="margin-right: 5px;"></span>
+                                            <a href="@ViewBag.SubTitleUrl" class="text-primary"> @ViewBag.SubTitle</a>
+                                            @* <a class="text-primary"> @ViewBag.SubTitle</a>*@
+                                        </li>
+                                    }
+                                    <li class="breadcrumb-item">
+                                        <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                                    </li>
+                                    <!--end::Item-->
+                                    <li class="breadcrumb-item text-dark fw-bolder" id="breadcrumbtitle">
+                                      
+                                        @ViewBag.Title
+                                    </li>
+                                    <!--begin::Item-->
+                                    <!--end::Item-->
+                                </ul>
+                                <!--end::Breadcrumb-->
+                            </div>
+
+                            <!--end::Page title-->
+                            <!--begin::Actions-->
+                            <div class="d-flex align-items-center gap-2 gap-lg-3">
+                                @RenderSection("ActionList", false)
+                            </div>
+                            <!--end::Actions-->
+                        </div>
+                        <!--end::Container-->
+                    </div>
+                    @if (ViewBag.ReferenceNo != null && ViewBag.ReferenceNo != "")
+                    {
+                        <div class="toolbar" id="kt_toolbar1" style="top: 120px;height: 30px;">
+                            <!--begin::Container-->
+                            <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                                <div class="breadcrumb-item text-danger fw-bolder" style="padding:5px; font-size: .95rem!important;" id="RefNo">
+                                    <span class="h-20px text-danger border-start mx-2"></span>
+                                    Reference No: @ViewBag.ReferenceNo
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!--end::Toolbar-->
+                    <!--begin::Post-->
+                    <div class="post d-flex flex-column-fluid" id="kt_post">
+                        <!--begin::Container-->
+                        <div id="kt_content_container" class="container-xxl mx-0 px-5" style="max-width:100% !important;">
+                            <!--begin::Row-->
+                            <div class="row gy-4 gx-4 g-xl-4">
+                                <!--begin::Col-->
+                                <div class="col-xl-12">
+                                    <!--begin::Tables Widget -->
+                                    @if (ViewBag.ReferenceNo != null && ViewBag.ReferenceNo != "")
+                                    {
+                                        <div id="baseCard" style="margin-top: 20px;" class="card">
+                                            <!--begin::Body-->
+                                            <div class="card-body">
+                                                @RenderBody()
+                                            </div>
+                                            <!--begin::Body-->
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div id="baseCard" class="card">
+                                            <!--begin::Body-->
+                                            <div class="card-body py-3 px-5">
+                                                @RenderBody()
+                                            </div>
+                                            <!--begin::Body-->
+                                        </div>
+                                    }
+
+                                    <!--end::Tables Widget -->
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Row-->
+                        </div>
+                        <!--end::Container-->
+                    </div>
+                    <!--end::Post-->
+                </div>
+                <!--end::Content-->
+               
+            </div>
+        </div>
+    </div>
+
+    <!--begin::Modal - Update password-->
+    <div class="modal fade" id="modalChangePwd" tabindex="-1" aria-hidden="true">
+        <!--begin::Modal dialog-->
+        <div class="modal-dialog modal-dialog-centered mw-600px">
+            <!--begin::Modal content-->
+            <div class="modal-content">
+                <!--begin::Modal header-->
+                <div class="modal-header ps-5">
+                    <!--begin::Modal title-->
+                    <h2 class="fw-bolder">Change Password</h2>
+                    <!--end::Modal title-->
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal" data-kt-users-modal-action="close">
+                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                        <span class="svg-icon svg-icon-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
+                            </svg>
+                        </span>
+                        <!--end::Svg Icon-->
+                    </div>
+                    <!--end::Close-->
+                </div>
+                <!--end::Modal header-->
+                <!--begin::Modal body-->
+                <div class="modal-body scroll-y mx-5 mx-xl-10 my-7">
+                    <!--begin::Form-->
+                    <!--begin::Input group=-->
+                    <div class="fv-row mb-5">
+                        <label class="required form-label fs-6 mb-2">Current Password</label>
+                        <input id="current_password" class="form-control form-control-sm" type="password" placeholder="" name="current_password" autocomplete="new-password" />
+                    </div>
+                    <!--end::Input group=-->
+                    <!--begin::Input group-->
+                    <div class="mb-5 fv-row" data-kt-password-meter="true">
+                        <!--begin::Wrapper-->
+                        <div class="mb-1">
+                            <!--begin::Label-->
+                            <label class="form-label required fw-bold fs-7 mb-2">New Password</label>
+                            <!--end::Label-->
+                            <!--begin::Input wrapper-->
+                            <div class="position-relative mb-3">
+                                <input class="form-control form-control-sm" type="password" placeholder="" name="new_password" id="new_password" autocomplete="new-password" />
+                                <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
+                                    <i class="bi bi-eye-slash fs-2"></i>
+                                    <i class="bi bi-eye fs-2 d-none"></i>
+                                </span>
+                            </div>
+                            <!--end::Input wrapper-->
+                            <!--begin::Meter-->
+                            <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
+                                <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                                <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                                <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                                <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
+                            </div>
+                            <!--end::Meter-->
+                        </div>
+                        <!--end::Wrapper-->
+                        <!--begin::Hint-->
+                        <div class="text-muted">Use 8 or more characters with a mix of letters, numbers <br /> &amp; symbols from list (@@ # $ % ^ & * ( ) [ ] - _ , ~ ! + : ' { }).</div>
+                        <!--end::Hint-->
+                    </div>
+                    <!--end::Input group=-->
+                    <!--begin::Input group=-->
+                    <div class="fv-row">
+                        <label class="form-label fw-bold fs-7 required mb-2">Confirm New Password</label>
+                        <input class="form-control form-control-sm" type="password" placeholder="" id="confirm_password" value="" name="confirm_password" autocomplete="new-password" />
+                    </div>
+                    <!--end::Input group=-->
+                    <!--begin::Actions-->
+                    <div class="text-center pt-10">
+                        <button class="btn btn-sm btn-primary" onclick="UpdatePassword()">Submit</button>
+                        <button class="btn btn-sm btn-secondary ms-3" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                    <!--end::Actions-->
+                    <!--end::Form-->
+                </div>
+                <!--end::Modal body-->
+            </div>
+            <!--end::Modal content-->
+        </div>
+        <!--end::Modal dialog-->
+    </div>
+    <!--end::Modal - Update password-->
+
+
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/assets/plugins/global/plugins.bundle.js"></script>
+    <script src="~/assets/js/scripts.bundle.js"></script>
+    <script src="~/assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
+    <script src="~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+    <script src="~/assets/plugins/custom/datatables/datatables.bundle.js"></script>
+    <script src="~/assets/plugins/custom/tagsinput/bootstrap-tagsinput.js"></script>
+    <script>
+        var UserDefaultData = @Html.Raw(Json.Serialize(UserData));
+    </script>
+    <script src="~/assets/js/Common.js"></script>
+    @RenderSection("scripts", required: false)
+    @RenderSection("QuickFilter", required: false)
+    
+</body>
+</html>

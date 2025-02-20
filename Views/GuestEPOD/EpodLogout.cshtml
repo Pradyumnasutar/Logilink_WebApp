@@ -1,0 +1,58 @@
+﻿@using LeS_LogiLink_WebApp.Models
+@inject IUserDefaultData UserData
+@{
+    Layout = null;
+   
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LogiLink</title>
+    <link rel="stylesheet" href="~/css/Logout.css">
+    <link rel="shortcut icon" id="shorticon" href="~/assets/media/logos/logo_LeS.png" />
+</head>
+<style>
+    .footer-logo {
+        width: 110px;
+        height: auto;
+        margin: 0 5px;
+    }
+
+    .footer-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .footer-container {
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        padding: 10px 0;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+    }
+</style>
+<body>
+    <div class="container">
+        <h4>@ViewBag.EpodLogout</h4>
+        <h3>Click below link to scan QR code and login again</h3>
+        <a class="text-primary"id="idLoginLink" onmouseover="MouseOver()" onmouseout="MouseOut()" onclick="Logout()" href="#">
+            Electronic Proof Of Delivery
+        </a>
+    </div>
+
+    <div class="footer-container">
+        <a style="margin-top: 5px;text-decoration: unset;color: white;margin-top: 5px;" class="fs-lg-7 fs-md-7 fs-8 fw-bold text-gray-700" href="https://lesconnect.io/" target="_blank">
+            Powered By
+            <div class="footer-content">
+                <img alt="Logo" src="~/assets/media/logos/LeSConnectLogos_MainLogo.png" alt="LES Logo" class="footer-logo">
+            </div>
+        </a>
+    </div>
+    <script src="~/assets/js/custom/GuestEPOD/EpodLogout.js"></script>
+</body>
+</html>
+
+

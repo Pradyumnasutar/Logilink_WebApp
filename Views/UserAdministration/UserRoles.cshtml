@@ -1,0 +1,200 @@
+﻿@using LeS_LogiLink_WebApp.Models
+@model LeS_LogiLink_WebApp.Controllers.UserAccessLevelsModal
+
+@{
+    ViewData["Title"] = "User Roles & Permissions";
+    Layout = "~/Views/Shared/_BaseMasterList.cshtml";
+}
+@section Scripts{
+
+    <script src="~/assets/js/custom/useradministration/userroles.js"></script>
+    <style>
+        .hide_column {
+            display: none;
+        }
+    </style>
+    
+}
+<div class="table-responsive mt-1">
+    <div class="fv-row">
+        <div class="row form-group mb-7 mt-5 " style="align-items: center;">
+            <div class="col-xl-2">
+                <label class="form-label text-dark fw-bolder fs-6 required">
+                    User Type:
+                </label>
+
+            </div>
+            <div class="col-xl-4">
+                <select id="ddlUsertype" class="form-select form-select-sm fs-7 " data-control="select2" data-hide-search="false" data-placeholder="Select User Type">
+                    <option></option>
+                    @{
+                        foreach (var item in Model.UserTypes)
+                        {
+                            <option value="@item.usertypeid">@item.usertypedescr</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-xl-5">
+                <button id="btneditusertype" class="btn btn-sm btn-success ModuleAccess" data-module="7" data-access_level="2,3" style="display:none" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                    <i class="fas fa-pen fs-3 me-2"></i> Edit 
+                </button>
+            </div>
+            
+
+        </div>
+        <!--begin::Table-->
+        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+            <table id="tblUserTypeModuleAccess" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                <!--begin::Table head-->
+                <thead>
+                    <tr class="fw-bolder text-muted bg-light fs-7">
+                        <th>Module Name</th>
+                        <th>Access Value</th>
+                        <th style="display:none">ModuleAccessID</th>
+                        <th style="display:none">ModuleID</th>
+                        <th style="display:none">Edit</th>
+                    </tr>
+                </thead>
+                <!--end::Table head-->
+               
+            </table>
+            </div>
+            <!--end::Table-->
+    </div>
+</div>
+
+
+
+@section Modals {
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" aria-hidden="true" tabindex="-1" id="modalItems">
+        <div class="modal-dialog " role="document" style="max-width: 800px !important">
+            <div class="modal-content">
+                <div class="modal-header bg-light-primary">
+                    <div class="modal-title" style="
+                                    font-weight: 600;
+                                    font-size: 1.2rem;
+                                    ">
+                        Edit User Type
+                    </div>
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 close" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="svg-icon svg-icon-2x">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
+                                <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
+                            </svg>
+                        </span>
+                    </div>
+                    <!--end::Close-->
+                </div>
+                <input id="itemkey" value="-1" class="hide" />
+                <div class="modal-body p-10 ">
+                    <!--begin::Input group-->
+                    <!--begin::Table-->
+                    <div class="fv-row">
+                        <div class="row form-group mb-5" style="align-items: center;">
+                            <label class="form-label text-uppercase text-dark fs-6">User Type : <span id="lbluserTpye"></span></label>
+                        </div>
+                    </div>
+                    <div class="row col-md-12">
+                        <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper no-footer">
+                            <table id="tblUserTypeModuleEDIT" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                                <!--begin::Table head-->
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light fs-7">
+                                        <th style="display:none;"></th>
+                                        <th class="min-w-80px text-gray-700 px-3">Module Name</th>
+                                        <th class="min-w-150px text-gray-700">Access Value</th>
+                                        @*<th style="display:none" class="min-w-80px text-gray-700 ">ModuleAccessID</th>
+                                    <th style="display:none" class="min-w-80px text-gray-700 ">ModuleID</th>
+                                    <th style="display:none" class="min-w-80px text-gray-700 ">Edit</th>*@
+                                    </tr>
+                                </thead>
+                                <!--end::Table head-->
+                                <!--begin::Table body-->
+                                <tbody>
+                                </tbody>
+                                <!--end::Table body-->
+                            </table>
+                            <!--end::Table-->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-success ModuleAccess" data-module="7" data-access_level="2,3" id="btnSaveUserTypeInfo">Save</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" aria-hidden="true" tabindex="-1" id="modalItemsADD">
+        <div class="modal-dialog " role="document" style="max-width: 800px !important">
+            <div class="modal-content">
+                <div class="modal-header bg-light-primary">
+                    <h5 class="modal-title">Add New User Type</h5>
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 close" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="svg-icon svg-icon-2x">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
+                                <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
+                            </svg>
+                        </span>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body p-10 ">
+                    <!--begin::Input group-->
+                    <!--begin::Table-->
+                    <div class="fv-row">
+                        <div class="row form-group mb-5" style="align-items: center;">
+                            <div class="col-xl-3">
+                                <label class="form-label text-dark fs-6 required">
+                                    User Type Name:
+                                </label>
+                            </div>
+                            <div class="col-xl-5">
+                                <input type="text" id="AddUserType" value="" class="form-control form-control-solid form-control-sm fs-7 text-dark" placeholder="User Type Name" />
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row col-md-12">
+                        <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper no-footer">
+                            <table id="tblUserTypeModuleADD" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                                <!--begin::Table head-->
+                                <thead>
+                                    <tr class="fw-bolder text-muted bg-light fs-7">
+                                        <th style="display:none;"></th>
+                                        <th class="min-w-80px text-gray-700 px-3">Module Name</th>
+                                        <th class="min-w-150px text-gray-700">Access Value</th>
+
+                                    </tr>
+                                </thead>
+                                <!--end::Table head-->
+                                <!--begin::Table body-->
+                                <tbody>
+                                </tbody>
+                                <!--end::Table body-->
+                            </table>
+                            <!--end::Table-->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-success ModuleAccess" data-module="1010" data-access_level="2,3" id="btnAddSaveUserType">Save</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+

@@ -1,0 +1,65 @@
+﻿@model List<Logistic_Management_Lib.Model.Mast_Goods_Return_Reasons>
+
+@{
+
+    ViewData["Title"] = "Goods Return Reason Code";
+    Layout = "~/Views/Shared/_BaseMasterList.cshtml";
+}
+
+@section scripts{
+
+    <script src="~/assets/js/custom/Masters/GoodsReturnReasonCode.js?123"></script>
+    @{
+        string Print_Key = ViewData["Print_Key"] as string;
+
+    }
+
+    <script>
+        var Print_Key = '@Print_Key';
+    </script>
+}
+
+@section AdditionalActions{
+
+    <button id="btnAddnew" class="btn btn-sm btn-success ModuleAccess" data-module="6" data-access_level="2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" onclick="AddNew(this)">
+        <i class="bi la-cart-plus fs-3 me-2"></i> Add
+    </button>
+
+    <button id="btnexportGRR" class="btn btn-sm btn-primary ModuleAccess" data-module="6" data-access_level="1,2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+        <i class="bi bi-printer fs-3 me-2"></i> Export List
+    </button>
+}
+
+@section tableheader{
+    <th style="display:none;"></th>
+    <th class="min-w-40px text-gray-700 px-3" style="width:10%">GRR code</th>
+    <th class="min-w-40px text-gray-700" style="width:50%">Description</th>
+    <th class="min-w-40px text-gray-700" style="width:10%">Action</th>
+
+}
+
+@section tablebody{
+    @{
+
+        foreach(var eachmodel in Model)
+        {
+            <tr id="row">
+                <td style="display:none;">@eachmodel.GrnReasonId</td>
+                <td class="min-w-40px px-3" style="width:10%">@eachmodel.GrnReasonCode</td>
+                <td class="min-w-40px" style="width:50%">@eachmodel.GrnReasonDescription</td>
+                <td class="min-w-20px" style="width:10%">
+                    <div id="divEdit">
+                        <a class="btn btn-sm btn-link btn-color-primary btn-active-color-primary me-5 " href="#" onclick="EditRow(this);">Edit</a>
+                        <a class="btn btn-sm btn-link btn-color-danger btn-active-color-danger me-5 Delete" href="#"></a>
+                    </div>
+                    <div class="hide" id="divSave">
+                        <a class="btn btn-sm btn-link btn-color-success btn-active-color-success me-5 " href="#" onclick="SaveRow()">Save</a>
+                        <a class="btn btn-sm btn-link btn-color-gray-500 btn-active-color-gray-500 me-5 " href="#" onclick="CancelEdit()">Cancel</a>
+                    </div>
+                </td>
+
+            </tr>
+        }
+    }
+
+}

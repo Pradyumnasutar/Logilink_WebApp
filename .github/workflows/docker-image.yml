@@ -1,0 +1,47 @@
+name: Deploy Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: powershell
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        shell: powershell
+        run: |
+          docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password "${{ secrets.GHCR_TOKEN }}"
+
+      - name: Verify Docker Login
+        shell: powershell
+        run: docker info
+
+      - name: Pull Docker Image from GHCR
+        shell: powershell
+        run: |
+          $IMAGE_NAME = "ghcr.io/${{ secrets.GHCR_USERNAME }}/newimage:latest"
+          docker pull $IMAGE_NAME
+
+      - name: Deploy Docker Container
+        shell: powershell
+        run: |
+          $IMAGE_NAME = "ghcr.io/${{ secrets.GHCR_USERNAME }}/newimage:latest"
+
+          # Check if the container exists before stopping/removing it
+          if (docker ps -a --format "{{.Names}}" | Select-String -Pattern "newimage_container") {
+            Write-Host "Stopping and removing existing container..."
+            docker stop newimage_container
+            docker rm newimage_container
+          }
+
+          Write-Host "Running new container..."
+          docker run -d --name newimage_container -p 8080:80 $IMAGE_NAME

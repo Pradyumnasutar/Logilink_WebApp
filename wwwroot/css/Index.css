@@ -1,0 +1,78 @@
+.backgroundIMG {
+    background-image: url('../assets/media/LandPage/Port-pana.svg');
+    background-repeat: no-repeat;
+    height: 72vh;
+    background-position: center;
+    opacity: 0.1;
+}
+
+
+.container {
+    
+    position: relative;
+    text-align: center;
+    color: white    
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.Wheader {
+    font-family: Poppins, sans-serif;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: normal;
+    
+    text-transform: none;
+    color: #48475e;
+}
+
+.Wheader-1 {
+    font-family: Poppins, sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: normal;
+    
+    text-transform: none;
+    color: #48475e;
+}
+
+@media screen and (max-width: 768px) {
+
+    .centered {
+        
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .Wheader {
+        font-family: Poppins, sans-serif;
+        font-size: 25px;
+        font-style: normal;
+        font-weight: 700;
+        letter-spacing: normal;
+        
+        text-transform: none;
+        color: #48475e;
+    }
+
+    .Wheader-1 {
+        font-family: Poppins, sans-serif;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 700;
+        letter-spacing: normal;
+       
+        text-transform: none;
+        color: #48475e;
+    }
+
+}

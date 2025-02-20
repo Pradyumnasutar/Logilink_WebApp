@@ -1,0 +1,526 @@
+﻿@model WMS_TMS.Controllers.VehicleTripPlanningDetails
+@{ ViewData["Title"] = "Vehicle Trip Planning";
+                Layout = "~/Views/Shared/_BaseMasterDetail.cshtml"; }
+
+
+@section scripts{
+    <style>
+        #base_card_container {
+            background: transparent !important;
+        }
+
+        #kt_content_container1 {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .card .card-header {
+            min-height: 40px !important;
+        }
+
+        .SubMenuActive {
+            color: #009ef7 !important;
+        }
+        
+        
+
+        div.dataTables_wrapper {
+            
+            margin: 0 auto;
+        }
+    </style>
+    <script type="module" src="~/assets/js/custom/TripPlanning/TripPlanningDetails.js"></script>
+
+    <script>
+
+        var Tripdata = @Html.Raw(Json.Serialize(Model.V_TRIP_PLAN));
+     
+    </script>
+
+}
+@section ActionList
+    {
+    <button class="btn btn-sm btn-success" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="btnDeliveryOrder" style="display:none;">
+        <i class="fas fa-truck  fs-3 me-2"></i> Create Delivery Order
+    </button>
+    <button class="btn btn-sm btn-success" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="btnSaveVehicleTripDetails">
+        <i class="fas fa-pen fs-3 me-2"></i> Save
+    </button>
+    <button class="btn btn-sm btn-danger" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" onclick="NavigatePage('/TripPlanning/VehicleTripPlan')">
+        <i class="fas fa-window-close fs-3 me-2"></i> Cancel
+    </button>
+}
+
+
+
+<div class="row gy-4 gx-4 g-xl-4">
+    <!--begin::Col-->
+    <div class="col-xl-3 flex-column ps-0">
+        <!--begin::Supplier Menu-->
+        <div class="card card-xl-stretch">
+            <!--begin::Body-->
+            <div class="card-body p-5">
+                <div class="flex-column-fluid">
+                    <!--begin::Menu-->
+                    <ul class="nav nav-tabs nav-pills flex-row border-0 flex-md-column me-0 mb-10 fs-7" style="width:100%;">
+                        <li class="mNav nav-item me-0 mb-md-3" style="width:100%;" disabled>
+
+                            <a class="nav-link btn btn-flex btn-white active" style="width:100%" aria-disabled="true" data-bs-toggle="tab" href="#kt_tab_pane_1">
+                                <span class="menu-icon">
+                                    <i class="bi bi-receipt fs-5"></i>
+                                </span>&nbsp;
+                                <span class="d-flex flex-column align-items-start">
+                                    <span class="fs-7 fw-bolder">Trip Info</span>
+                                </span>
+                            </a>
+
+                            <ul class="nav nav-tabs nav-pills flex-row border-0 flex-md-column me-0 mb-10 fs-7" style="width: 100%; padding-left: 20px; margin-bottom: 0px !important;">
+                                <li class="sub nav-item me-0 mb-md-1 " style="width:100%;">
+                                    <a class="nav-link btn btn-flex btn-white" id="PlanningDetails" style="width:100%" data-bs-toggle="tab" href="#kt_tab_pane_1">
+                                        <span class="menu-icon">
+                                            <i class="fas fa-file-alt fs-5"></i>
+                                        </span>&nbsp;
+                                        <span class="d-flex flex-column align-items-start">
+                                            <span class="fs-7 fw-bolder">Planning Details</span>
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="sub nav-item me-0 mb-md-1 " style="width:100%;">
+                                    <a class="nav-link btn btn-flex btn-white" id="ShipmentLines" style="width:100%" data-bs-toggle="tab" href="#kt_tab_pane_2">
+                                        <span class="menu-icon">
+                                            <i class="fas fa-address-card fs-5"></i>
+                                        </span>&nbsp;
+                                        <span class="d-flex flex-column align-items-start">
+                                            <span class="fs-7 fw-bolder">Shipment Lines</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="sub nav-item me-0 mb-md-1 " style="width:100%;">
+                                    <a class="nav-link btn btn-flex btn-white" id="TripDetails" style="width:100%" data-bs-toggle="tab" href="#kt_tab_pane_3">
+                                        <span class="menu-icon">
+                                            <i class="fas fa-cogs fs-5"></i>
+                                        </span>&nbsp;
+                                        <span class="d-flex flex-column align-items-start">
+                                            <span class="fs-7 fw-bolder">Trip Details</span>
+                                        </span>
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                    </ul>
+                    <!--end::Menu-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Body-->
+    <!--end::Supplier Menu-->
+
+    <div class="col-xl-9 px-0 min-h-400px">
+        <div class="card card-xl-stretch">
+            <!--begin::Card header-->
+            <div class="card-header bg-light-primary m-4">
+                <h3 class="card-title flex-column">
+                    <span class="fw-bolder mb-2 text-dark fs-5" id="TabTitle">Planning Details</span>
+                </h3>
+            </div>
+            <!--begin::Card header-->
+            <!--begin::Card Body-->
+            <div class="card-body pt-5">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
+                        <div class="row gy-5 g-xl-12">
+                            <div class="col-xl-12 border-gray-500">
+                                <!--begin::Row 1-->
+
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Site:
+                                            </label><br />
+                                            @if (Model.V_TRIP_PLAN != null)
+                                            {
+                                <input type="text" id="txtSite" readonly value="@Model.V_TRIP_PLAN.site_code" class="form-control form-control-sm fs-7 text-dark" />}
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Order No/Shipment ID:
+                                            </label><br />
+                                            @if (Model.V_TRIP_PLAN != null)
+                                            {
+                                <input type="text" id="txtShipmentNo" readonly value="@Model.V_TRIP_PLAN.order_no" class="form-control form-control-sm fs-7 text-dark" />}
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Status:
+                                            </label><br />
+                                            <select name="selStatus" id="selStatus" data-placeholder="All" data-control="select2" class="form-select fs-7" tabindex="-1">
+                                                <option></option>
+                                                var _selected ='';
+
+                                                @if (Model.TRIP_STATUS != null)
+                                                {
+                                                    foreach (var obj in Model.TRIP_STATUS)
+                                                    {
+
+                                                        if (obj.statusid == @Model.V_TRIP_PLAN.statusid)
+                                                        {
+                                    <option value="@obj.statusid" selected> @obj.status_desc</option> }
+                                                        else
+                                                        {
+                                    <option value="@obj.statusid"> @obj.status_desc</option>}
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                </div>
+                                <!--end::Row 1-->
+                                <!--begin::Row 2-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Customer:
+                                            </label><br />
+                                            @if (Model.V_TRIP_PLAN != null)
+                                            {
+                                <input type="text" id="txtCustomerCode" readonly value="@Model.V_TRIP_PLAN.customer_code" class="form-control form-control-sm fs-7 text-dark" />}
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Customer Name:
+                                            </label><br />
+                                            @if (Model.V_TRIP_PLAN != null)
+                                            {
+                                <input type="text" id="txtCustomerName" readonly value="@Model.V_TRIP_PLAN.customer_name" class="form-control form-control-sm fs-7 text-dark" />}
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Point Type:
+                                            </label><br />
+                                            <select name="selStatus" id="selPointType" data-placeholder="All" data-control="select2" class="form-select fs-7" tabindex="-1">
+                                                <option></option>
+                                                var _selected ='';
+
+                                                @if (Model.Mast_Point_Types != null)
+                                                {
+                                                    foreach (var obj in Model.Mast_Point_Types)
+                                                    {
+
+                                                        if (obj.POINT_TYPEID == @Model.V_TRIP_PLAN.point_typeid)
+                                                        {
+                                    <option value="@obj.POINT_TYPEID" selected> @obj.POINT_CODE</option> }
+                                                        else
+                                                        {
+                                    <option value="@obj.POINT_TYPEID"> @obj.POINT_CODE</option>}
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                </div>
+                                <!--end::Row 2-->
+                                <!--begin::Row 3-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Planned Ship Date/Time:
+                                            </label><br />
+                                            @{ var fdate = "";
+                                                            if (Model.V_TRIP_PLAN.planned_ship_date != null && Model.V_TRIP_PLAN.planned_ship_date != DateTime.MinValue)
+                                                                fdate = Convert.ToDateTime(Model.V_TRIP_PLAN.planned_ship_date).ToString("dd'/'MM'/'yyyy");
+                                                <input type="text" id="" readonly value="@fdate" class="form-control form-control-sm fs-7 text-dark" /> }
+
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Planned Delivery Date/Time:
+                                            </label><br />
+                                            @{ var pdate = "";
+                                                            if (@Model.V_TRIP_PLAN.planned_delivery_date != null && @Model.V_TRIP_PLAN.planned_delivery_date != DateTime.MinValue)
+                                                                pdate = Convert.ToDateTime(@Model.V_TRIP_PLAN.planned_delivery_date).ToString("dd'/'MM'/'yyyy");
+                                                <input type="text" id="" readonly value="@pdate" class="form-control form-control-sm fs-7 text-dark" /> }
+
+
+                                        </div>
+                                        @*<div class="col-xl-4">
+                                                <label class="form-label text-dark fw-bolder fs-8">
+                                                    Job Order No:
+                                                </label><br />
+                                                <input type="text" id="" value="@Model.V_TRIP_PLAN.job_order_no" class="form-control form-control-sm fs-7 text-dark" />
+                                            </div>*@
+                                        <!--end::Col-->
+                                    </div>
+                                </div>
+                                <!--end::Row 3-->
+                                <!--Begin::Row 4-->
+                                <div class="fv-row">
+                                    <div class="row form-group mb-7">
+                                        @*<div class="col-xl-4">
+                                                <label class="form-label text-dark fw-bolder fs-8">
+                                                    Activity Type:
+                                                </label><br />
+                                                <input type="text" id="" value="" class="form-control form-control-sm fs-7 text-dark" />
+                                            </div>*@
+                                        <!--<div class="col-xl-4">
+                                            <label class="form-label text-dark fw-bolder fs-8">
+                                                Customer's PO No:
+                                            </label><br />
+                                            <input type="text" id="" value="" class="form-control form-control-sm fs-7 text-dark" />-->
+                                        <!--end::Col-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                                <!-- end::Side Date Panel-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="kt_tab_pane_2" role="tabpanel">
+                        <div class="row gy-5 g-xl-12">
+                            <div class="col-xl-12 border-gray-500">
+                                <!--begin::Row 1-->
+                                <div class="fv-row">
+                                    <div class="table-responsive mt-1">
+                                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+                                            <!--begin::Table-->
+                                            <div class="d-flex align-items-center mt-2">
+                                                <label class="form-label text-uppercase fw-bolder text-dark fs-8">Total Records : <span id="lblShipLineRecords"></span></label>
+                                            </div>
+                                            <table id="tblShipLineItems" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3 nowrap " style="width:100%">
+                                                <!--begin::Table head-->
+                                                <thead>
+                                                    <tr class="fw-bolder text-muted bg-light">
+                                                        <th class=" text-gray-700 px-3">Line No</th>
+                                                        <th class=" text-gray-700 ">Source Refer 1</th>
+                                                        <th class=" text-gray-700 ">Source Refer 2</th>
+                                                        <th class=" text-gray-700 ">Source Refer 3</th>
+                                                        <th class=" text-gray-700 ">Job Order No</th>
+                                                        <th class=" text-gray-700 ">Activity Type</th>
+                                                        <th class=" text-gray-700 ">Customer's PO No</th>
+                                                        <th class=" text-gray-700 ">Sales Part No</th>
+                                                        <th class=" text-gray-700 ">Description</th>
+                                                        <th class=" text-gray-700 " style="width:10%">Sales Qty</th>
+                                                        <th class=" text-gray-700 ">Sales UoM</th>
+                                                        <th class=" text-gray-700 ">M3</th>
+                                                        <th class=" text-gray-700 ">Tonnage</th>
+                                                        <th class=" text-gray-700 ">Wanted Delivery Date/Time</th>
+                                                        <th class=" text-gray-700 ">To Do Date</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="kt_tab_pane_3" role="tabpanel">
+                        <div class="row gy-5 g-xl-12">
+                            <div class="col-xl-12 border-gray-500">
+                                <!--begin::Row 1-->
+                                <div class="fv-row">
+                                    <div class="table-responsive mt-1">
+                                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+                                            <!--begin::Table-->
+                                            <div class="d-flex align-items-center mt-2">
+                                                <label class="form-label text-uppercase fw-bolder text-dark fs-8">Total Records : <span id="lblTripDetailRecords"></span></label>
+                                            </div>
+                                            <table id="tblLineItems" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3 nowrap">
+                                                <!--begin::Table head-->
+                                                <thead>
+                                                    <tr class="fw-bolder text-muted bg-light">
+                                                        <th class=" ps-5" style="width:5%"></th>
+                                                        <th class=" text-gray-700 ">Trip Plan No</th>
+                                                        <th class=" text-gray-700 ">LOT</th>
+                                                        <th class=" text-gray-700 ">From Location</th>
+                                                        <th class=" text-gray-700 ">To Location</th>
+                                                        <th class=" text-gray-700 ">ETA/ETD</th>
+                                                        <th class=" text-gray-700 ">Permit</th>
+                                                        <th class=" text-gray-700 ">Type Of Vehicle</th>
+                                                        <th class=" text-gray-700 ">B/L CUTOFF</th>
+                                                        <th class=" text-gray-700 ">CONT&SEAL/BKGREF</th>
+                                                        <th class=" text-gray-700 ">VESSEL/VOY</th>
+                                                        <th class=" text-gray-700 ">Type</th>
+                                                        <th class=" text-gray-700 ">Remarks</th>
+                                                        <th class=" text-gray-700 ">Assigned Driver</th>
+                                                        <th class=" text-gray-700 ">Service Types</th>
+                                                        <th class=" text-gray-700 ">Comission Calculated</th>
+                                                        <th class=" text-gray-700 ">Status</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="gy-1">
+                                                    @* @if (Model.V_INTERNAL_ORDER_LINE != null)
+                {
+                @foreach (var s in Model.V_INTERNAL_ORDER_LINE)
+                {
+                if (@s.INTERNALLINEID == -1) continue;
+                <tr id="row@{@s.INTERNALLINEID}" class="fs-8">
+                <td class="text-center ps-5" style="width:5%">
+                <div class="form-check form-check-custom form-check-solid">
+                <input class="form-check-input h-15px w-15px" type="radio" value="YES" id="chkSelect" name="InternalLineId" data-sid="@s.INTERNALLINEID" />
+                </div>
+                </td>
+                <td class="min-w-20 text-break" style="width:15%">@s.LINENO</td>
+                <td class="min-w-15 text-break" style="width:10%">@s.PARTNO</td>
+                <td class="min-w-20 text-break" style="width:20%">@s.PARTNAME</td>
+                <td class="min-w-20 text-break" style="width:20%">@s.QTY</td>
+                <td class="min-w-20 text-break" style="width:25%">@s.UOM</td>
+                <td class="min-w-20 text-break" style="width:20%">@s.RECEIPTDATE</td>
+                <td class="min-w-20 text-break" style="width:35%">@s.ARRIVALDATE</td>
+
+                </tr>
+                }
+                }*@
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--end::Card Body-->
+        </div>
+
+    </div>
+    <!--end::Col-->
+</div>
+
+
+
+@section Modals{
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" aria-hidden="true" tabindex="-1" id="modalItems">
+        <div class="modal-dialog " role="document" style="max-width: 750px !important">
+            <div class="modal-content">
+                <div class="modal-header bg-light-primary">
+                    <h5 class="modal-title">Part Order Lines</h5>
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 close" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="svg-icon svg-icon-2x">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
+                                <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
+                            </svg>
+                        </span>
+                    </div>
+                    <!--end::Close-->
+                </div>
+                <div class="modal-body p-10 ">
+                    <!--begin::Input group-->
+                    <div class="row col-md-12 itemupdate">
+                        <div class="mb-2 col-md-4">
+                            <input id="itemkey" value="-1" class="hide" />
+                            <!--begin::Label-->
+                            <label class="col-md-3 form-label fw-bolder text-gray-700 fs-7">Line No :</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <div class="col-md-2">
+                                <label id="lblLineNo" class="form-label fw-bolder text-gray-700 fs-7">1</label>
+                            </div>
+                            <!--end::Input-->
+                        </div>
+
+                    </div>
+                    <div class="row col-md-12">
+
+                        <div class="mb-2 col-md-4">
+                            <!--begin::Label-->
+                            <label class="form-label fw-bolder text-gray-700 fs-7">Sales Part No :</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <div>
+                                <select name="selParts" id="selParts" data-placeholder="Select Part No " data-control="select2" class="form-select fs-7" tabindex="-1">
+                                    <option></option>
+                                    @* @foreach (var obj in Model.V_SalesParts)
+                                        {
+                                        <option value="@obj.SalesPartId">@obj.PART_NUMBER</option>
+                                        }*@
+
+                                </select>
+                            </div>
+                            <!--end::Input-->
+                        </div>
+                        <div class="mb-2 col-md-4">
+                            <!--begin::Label-->
+                            <label class="form-label fw-bolder text-gray-700 fs-7">Sales Part Description :</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <div>
+                                <input id="txtPartDesc" type="text" placeholder="Part Description" class="form-control form-control-sm">
+                            </div>
+                            <!--end::Input-->
+                        </div>
+                        <div class="mb-2 col-md-4">
+                            <!--begin::Label-->
+                            <label class="form-label fw-bolder text-gray-700 fs-7">Quantity :</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <div>
+                                <input id="txtQty" type="number" min="1" placeholder="Quantity" class="form-control form-control-sm">
+                            </div>
+                            <!--end::Input-->
+                        </div>
+                    </div>
+                    <div class="row col-md-12">
+
+                        <div class="mb-2 col-md-4">
+                            <!--begin::Label-->
+                            <label class="form-label fw-bolder text-gray-700 fs-7">UoM :</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <div>
+                                <input id="txtUoM" type="text" placeholder="" class="form-control form-control-sm">
+                            </div>
+                            <!--end::Input-->
+                        </div>
+                        <div class="mb-2 col-md-4">
+                            <!--begin::Label-->
+                            <label class="form-label fw-bolder text-gray-700 fs-7">Planned Receipt Date :</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <div>
+                                <input id="dtRecieptDate" placeholder="Select Receipt Date" class="form-control form-control-solid form-control-sm fs-7 dateField text-dark" value="" />
+
+                            </div>
+                            <!--end::Input-->
+                        </div>
+                        <div class="mb-2 col-md-4">
+                            <!--begin::Label-->
+                            <label class="form-label fw-bolder text-gray-700 fs-7">Planned Arrival Date :</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <div>
+                                <input id="dtArrivalDate" placeholder="Select Arrival Date" class="form-control form-control-solid form-control-sm fs-7 dateField text-dark" value="" />
+
+                            </div>
+                            <!--end::Input-->
+                        </div>
+
+                    </div>
+                    <!--end::Input group-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-success" id="btnSaveParts">Save</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

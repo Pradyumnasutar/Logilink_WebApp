@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Error";
+    Layout = "~/Views/Shared/_BaseMaster.cshtml";
+}
+@{
+    string X = ViewBag.ErrorMessage;
+    string[] Data = X.Split('\n');
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error</title>
+
+    <style>
+        .error-container img {
+            margin-bottom: 30px;
+            background-color:white;
+        }
+
+        .error-container p {
+            margin-bottom: 5px; 
+        }
+
+
+        .error-container {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 80px;
+            height: 415px;
+            font-family: Poppins,Helvetica,sans-serif;
+            
+        }
+        
+
+        .error-message {
+            font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', 'sans-serif';
+            font-size: 26px;
+            color: black;
+            margin-top: 30px;
+            font-family: Poppins,Helvetica,sans-serif;
+        }
+
+        .text-lg {
+            font-size: 25px; 
+        }
+
+
+        .btn-sm {
+            font-size: 16px;
+            margin-top: 5px;
+            font-family: Poppins,Helvetica,sans-serif;
+        }
+
+        
+
+        .btn-custom {
+            border-color: #009ef7;
+            background-color: #009ef7; 
+            color: #fff;             
+        }
+
+    </style>
+</head>
+<body>
+    <div class="error-container" style="height:auto">
+               <img src="~/assets/media/misc/error robot.jpg" style="height:200px"  />
+      @* <img src="~/assets/media/misc/ro.jpg" style="height:180px" />*@
+        @if (Data.Length > 0)
+        {
+            <p class="text-gray-700 text-lg">@Data[0]</p>
+        }
+        @if (Data.Length > 1)
+        {
+            <p class="btn-sm">@Data[1]</p>
+        }
+        <button class="btn btn-sm btn-custom" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" onclick="window.history.back();">
+            Go Back
+        </button>
+    </div>
+</body>
+</html>

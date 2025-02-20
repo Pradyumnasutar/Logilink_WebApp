@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Company List";
+    Layout = "~/Views/Shared/_BaseMasterList.cshtml";
+}
+
+@section AdditionalActions {
+    <button id="btnAddnew" class="btn btn-sm btn-success ModuleAccess" data-module="" data-access_level="1,2,3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" onclick="AddNew(this)">
+        <i class="bi la-cart-plus fs-3 me-2"></i> Add User
+    </button>
+}
+
+@section tableheader {
+    <th style="display:none;"></th>
+    <th class="min-w-40px text-gray-700 px-3" style="width:50%">Company</th>
+    <th class="min-w-40px text-gray-700" style="width:10%">Type</th>
+    <th class="min-w-40px text-gray-700" style="width:10%">Country</th>
+}
+
+@section tablebody {
+    <tbody class="text-gray-800">
+        <tr class="odd">
+            <td class="ps-5 d-flex align-items-center sorting_1">
+                <!--begin:: Logo -->
+                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                    <a href="Admin/CompanyInfo/100002">
+                        <div class="symbol-label">
+                            <div class="symbol-label fs-3 bg-light-warning text-warning">T</div>
+                        </div>
+                    </a>
+                </div>
+                <!--end::Logo-->
+                <!--begin::Company details-->
+                <div class="d-flex flex-column ms-3">
+                    <a href="Admin/CompanyInfo/100002" class="text-gray-800 text-hover-primary mb-1 fw-bolder fs-6">Test Buyer</a>
+                    <span class="text-gray-600 fw-bold fs-6 hide">test@gmail.com</span>
+                </div>
+                <!--end::Company details-->
+            </td>
+            <td>BUYER</td>
+            <td>Singapore</td>
+        </tr>
+        <tr class="even">
+            <td class="ps-5 d-flex align-items-center sorting_1">
+                <!--begin:: Logo -->
+                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                    <a href="Admin/CompanyInfo/100000">
+                        <div class="symbol-label">
+                            <div class="symbol-label fs-3 bg-light-info text-info">L</div>
+                        </div>
+                    </a>
+                </div>
+                <!--end::Logo-->
+                <!--begin::Company details-->
+                <div class="d-flex flex-column ms-3">
+                    <a href="Admin/CompanyInfo/100000" class="text-gray-800 text-hover-primary mb-1 fw-bolder fs-6">Lighthouse eSolutions Pte Ltd</a>
+                    <span class="text-gray-600 fw-bold fs-6 hide">n/a</span>
+                </div>
+                <!--end::Company details-->
+            </td>
+            <td>ADMIN</td>
+            <td>Singapore</td>
+        </tr>
+        <tr class="odd">
+            <td class="ps-5 d-flex align-items-center sorting_1">
+                <!--begin:: Logo -->
+                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                    <a href="Admin/CompanyInfo/100001">
+                        <div class="symbol-label">
+                            <div class="symbol-label fs-3 bg-light-success text-success">C</div>
+                        </div>
+                    </a>
+                </div>
+                <!--end::Logo-->
+                <!--begin::Company details-->
+                <div class="d-flex flex-column ms-3">
+                    <a href="Admin/CompanyInfo/100001" class="text-gray-800 text-hover-primary mb-1 fw-bolder fs-6">Con-Lash Supplies</a>
+                    <span class="text-gray-600 fw-bold fs-6 hide">support@lighthouse-esolutions.com</span>
+                </div>
+                <!--end::Company details-->
+            </td>
+            <td>SUPPLIER</td>
+            <td>Singapore</td>
+        </tr>
+    </tbody>
+}

@@ -1,0 +1,203 @@
+﻿@media (max-width: 992px) {
+    .gy-5.g-xl-9 {
+        display: none;
+    }
+}
+
+@media (max-width: 991px) {
+    div {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width:992 px) {
+    kt_aside_mobile_toggle {
+        display: none;
+    }
+}
+
+.container {
+    max-width: 100%;
+}
+
+
+.breadcrumb {
+    display: flex;
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 20px;
+    list-style: none;
+    justify-content: space-between;
+    position: relative;
+    margin-top: 20px;
+}
+
+.disabled-red {
+    background-color: #ffc3c3 !important;
+}
+
+.breadcrumb-items {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    font-size: 16px;
+    color: #6c757d;
+}
+
+    .breadcrumb-items .step-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .breadcrumb-items .step-description {
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 10px;
+    }
+
+    .breadcrumb-items .circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #fff;
+        margin-bottom: 5px;
+        position: relative;
+        z-index: 1;
+    }
+
+
+.circle.open {
+    background-color: #6c757d;  
+    border: 2px solid #dc3545;  
+}
+
+.breadcrumb-items.in-progress:not(.active) .circle {
+    background-color: #ffc107 !important;  
+}
+
+.circle.complete {
+    background-color: #28a745;  
+}
+
+.breadcrumb-items.active .circle {
+    background-color: #39a66a;  
+}
+
+.breadcrumb-items .circle {
+    background-color: #6c757d; 
+}
+
+.breadcrumb-items:not(.active) .circle {
+    background-color: #6c757d;  
+}
+
+.breadcrumb-items:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 100%;
+    transform: translateX(-50%);
+    width: calc(100% - 30px);
+    height: 4px;
+    background-color: #6c757d;
+    z-index: 0;
+}
+/* Hide connecting lines on screens smaller than 420px */
+@media (max-width: 420px) {
+   
+    .breadcrumb {
+        flex-direction:row ;/* Stack breadcrumb items vertically */
+        align-items: self-start; /* Center align breadcrumb items */
+    }
+    .breadcrumb-items .step-description {
+        white-space: normal; /* Allow the description to wrap */
+        word-wrap: break-word; /* Break long words to fit */
+        text-align:center;
+    }
+    .breadcrumb-items {
+        margin: 10px 0; /* Adjust margin for stacked items */
+    }
+}
+@media (max-width:300px){
+     .breadcrumb-items:not(:last-child)::after {
+        display: none;
+    }
+    .breadcrumb {
+        flex-direction: column; /* Stack breadcrumb items vertically */
+        align-items: center; /* Center align breadcrumb items */
+    }
+
+}
+
+.breadcrumb-items.active:not(:last-child)::after {
+    background-color: #39a66a;
+}
+
+
+.shipment-info-button {
+    margin-top: 10px; /* Adjusted margin */
+    width: 150px; /* Reduced width */
+    height: 35px; /* Reduced height */
+    background-color: #001f3f; /* Navy blue background color */
+    color: #fff; /* White font color */
+    border: none;
+    border-radius: 15px; /* Rounded shape */
+    font-size: 12px; /* Adjusted font size */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-column {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    padding: 8px;
+    align-items: center;
+    color: white;
+    border-radius: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .button-column:hover {
+        background-color: rgb(100, 95, 95);
+    }
+
+
+.min-h-400px {
+    min-height: 400px;
+}
+
+.rows {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.document-section {
+    display: none;
+}
+
+    .document-section.active {
+        display: block;
+    }
+
+.tab-content {
+    display: none; /* Hide content by default */
+    padding: 20px; /* Padding for content */
+    border: 1px solid #ccc; /* Border for content */
+    border-top: none; /* Remove top border to connect with tabs */
+}
+
+    .tab-content.active {
+        display: block; /* Show active content */
+    }

@@ -1,0 +1,307 @@
+.accordion {
+  overflow-anchor: none;
+}
+.accordion > .card {
+  overflow: hidden;
+}
+.accordion > .card:not(:last-of-type) {
+  border-bottom: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.accordion > .card:not(:first-of-type) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.accordion > .card > .card-header {
+  border-radius: 0;
+  margin-bottom: -1px;
+}
+
+
+.accordion .card {
+  overflow: visible !important;
+}
+.accordion .card:last-child {
+  margin-bottom: 0;
+}
+.accordion .card .card-header {
+  cursor: pointer;
+  margin: 0;
+  border-bottom: 0;
+  padding: 0;
+  background-color: #F3F6F9;
+}
+.accordion .card .card-header .card-title {
+  padding: 1rem 1.25rem;
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #3699FF;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+.accordion .card .card-header .card-title > i {
+  margin-right: 1rem;
+  font-size: 1.4rem;
+  color: #3699FF;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+.accordion .card .card-header .card-title .card-label {
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+.accordion .card .card-header .card-title.collapsed {
+  color: #3F4254;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+.accordion .card .card-header .card-title.collapsed > i {
+  color: #B5B5C3;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+.accordion .card .card-header .card-title:after {
+  right: 1rem;
+}
+.accordion .card .card-header .card-text {
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+.accordion .card .card-body {
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+}
+.accordion:last-child {
+  margin-bottom: 0;
+}
+.accordion-outline .card {
+  background-color: transparent;
+}
+
+.accordion.accordion-light .card {
+  border: 0;
+  border-top: 1px solid #EBEDF3;
+}
+.accordion.accordion-light .card .card-header {
+  background-color: transparent;
+  border: 0;
+}
+.accordion.accordion-light .card .card-header .card-title {
+  padding: 1rem 0;
+}
+.accordion.accordion-light .card .card-header .card-title:after {
+  right: 0;
+}
+.accordion.accordion-light .card .card-body {
+  padding: 0 0 1rem 0;
+}
+.accordion.accordion-light .card:first-child {
+  border-top: 0;
+}
+.accordion.accordion-light .card:first-child .card-header {
+  margin: 0;
+}
+.accordion.accordion-light .card:last-child .card-body {
+  padding: 0;
+  margin: 0;
+}
+.accordion.accordion-light-borderless .card {
+  border-top: 0;
+}
+
+.accordion.accordion-solid .card {
+  border: 0;
+  margin-bottom: 1.25rem;
+}
+.accordion.accordion-solid .card .card-header {
+  padding: 0;
+  background-color: transparent;
+}
+.accordion.accordion-solid .card .card-header .card-title {
+  background-color: #F3F6F9;
+  border-radius: 0.42rem;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.accordion.accordion-solid .card .card-header .card-title.collapsed {
+  border-radius: 0.42rem;
+}
+.accordion.accordion-solid .card .card-body {
+  border: 1px solid #F3F6F9;
+  border-bottom-left-radius: 0.42rem;
+  border-bottom-right-radius: 0.42rem;
+}
+.accordion.accordion-solid .card:last-child {
+  margin: 0;
+}
+
+.accordion.accordion-toggle-plus .card .card-header .card-title {
+  color: #3699FF;
+  position: relative;
+}
+.accordion.accordion-toggle-plus .card .card-header .card-title:after {
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  position: absolute;
+  font-family: Ki;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  content: "";
+  font-size: 0.75rem;
+  color: #3699FF;
+}
+.accordion.accordion-toggle-plus .card .card-header .card-title.collapsed {
+  color: #3F4254;
+}
+.accordion.accordion-toggle-plus .card .card-header .card-title.collapsed:after {
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  color: #7E8299;
+  font-family: Ki;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  content: "";
+}
+
+.accordion.accordion-toggle-arrow .card .card-header .card-title {
+  color: #3699FF;
+  position: relative;
+}
+.accordion.accordion-toggle-arrow .card .card-header .card-title:after {
+  position: absolute;
+  font-family: Ki;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  content: "";
+  color: #3699FF;
+  font-size: 0.7rem;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+.accordion.accordion-toggle-arrow .card .card-header .card-title.collapsed {
+  color: #3F4254;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+.accordion.accordion-toggle-arrow .card .card-header .card-title.collapsed:after {
+  color: #7E8299;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  /*rtl:begin:*/
+  /*rtl:end:*/
+}
+
+.accordion.accordion-svg-toggle .card .card-header .card-title .svg-icon svg {
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+  /*rtl:begin:*/
+  /*rtl:end:*/
+}
+.accordion.accordion-svg-toggle .card .card-header .card-title.collapsed .svg-icon svg {
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+
+.accordion.accordion-panel .card {
+  border-radius: 0.42rem;
+}
+.accordion.accordion-panel .card .card-header .card-title {
+  background-color: #fff;
+  border-radius: 0.42rem;
+}
+.accordion.accordion-panel .card .card-body {
+  padding-top: 0;
+  border: 0;
+  border-radius: 0.42rem;
+}
+
+.bootstrap-datetimepicker-widget .picker-switch.accordion-toggle {
+  padding: 10px;
+}
+.bootstrap-datetimepicker-widget .picker-switch.accordion-toggle table {
+  padding: 0;
+}
+.bootstrap-datetimepicker-widget .picker-switch.accordion-toggle table td {
+  padding: 0;
+  height: 35px;
+}
+.bootstrap-datetimepicker-widget .picker-switch.accordion-toggle table td a {
+  padding: 0;
+  color: #3F4254;
+  font-weight: 500;
+}
+.bootstrap-datetimepicker-widget .picker-switch.accordion-toggle table td a span {
+  font-size: 1.1rem;
+  color: #7E8299;
+}
+.bootstrap-datetimepicker-widget .picker-switch.accordion-toggle table td:hover {
+  background: #F3F6F9 !important;
+}
+.bootstrap-datetimepicker-widget .picker-switch.accordion-toggle table td:hover a span {
+  background: transparent;
+  color: #3699FF;
+}
+.bootstrap-datetimepicker-widget .collapse.show ~ .picker-switch.accordion-toggle {
+  padding-top: 0;
+}
+.bootstrap-datetimepicker-widget .picker-switch.accordion-toggle ~ .collapse.show .timepicker {
+  padding-top: 0;
+}
+
+.collapse:not(.show) {
+  display: none;
+}
+
+.card.card-custom.card-collapsed > form,
+.card.card-custom.card-collapsed > .card-body {
+  display: none;
+}
+.card.card-custom.card-collapsed .card-header .card-toolbar [data-card-tool=toggle] i, .card.card-custom.card-collapse .card-header .card-toolbar [data-card-tool=toggle] i {
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
